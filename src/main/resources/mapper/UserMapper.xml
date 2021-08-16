@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ml.timi.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.ml.timi.model.entity.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="login" jdbcType="VARCHAR" property="login"/>
+        <result column=" name" jdbcType="VARCHAR" property="name"/>
+        <result column=" pwd" jdbcType="VARCHAR" property="pwd"/>
+        <result column=" head_img" jdbcType="VARCHAR" property="headImg"/>
+        <result column=" phone" jdbcType="VARCHAR" property="phone"/>
+        <result column=" create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <sql id="User_Base_Column_List">
+        login,
+        name,
+        pwd,
+        head_img,
+        phone,
+        create_time
+    </sql>
+
+    <!--注册用户信息-->
+    <insert id="register" parameterType="com.ml.timi.model.entity.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user
+        (<include refid="User_Base_Column_List"/>)
+            value (
+            #{login,jdbcType = VARCHAR},
+            #{name,jdbcType = VARCHAR},
+            #{pwd,jdbcType = VARCHAR},
+            #{headImg,jdbcType = VARCHAR},
+            #{phone,jdbcType = VARCHAR},
+            #{createTime,jdbcType = TIMESTAMP})
+    </insert>
+
+
+    <select id="findByPhone" resultType="com.ml.timi.model.entity.User">
+
+        select *
+        from user
+        where phone = #{phone};
+    </select>
+
+
+
+
+
+    <select id="checkLogin" resultType="com.ml.timi.model.entity.User">
+        select *
+        from user
+        where login = #{login}
+          and pwd = #{pwd};
+    </select>
+
+    <select id="findByUserToken" resultType="com.ml.timi.model.entity.User">
+        select *
+        from user
+        where id = #{userId}
+
+    </select>
+</mapper>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ml.timi.mapper.TestMapper">
+    <resultMap id="BaseResultMap" type="com.ml.timi.utils.LogTemplate">
+        <result column="natural_key" jdbcType="VARCHAR" property="naturalKey"/>
+        <result column=" ip_address" jdbcType="VARCHAR" property="ipAddress"/>
+        <result column=" log_operation_type" jdbcType="VARCHAR" property="logOperationType"/>
+        <result column=" log_module" jdbcType="VARCHAR" property="logModule"/>
+        <result column=" operation_time" jdbcType="TIMESTAMP" property="operationTime"/>
+        <result column=" operator" jdbcType="VARCHAR" property="operator"/>
+        <result column=" log_directory" jdbcType="VARCHAR" property="logDirectory"/>
+        <result column=" status" jdbcType="VARCHAR" property="status"/>
+        <result column=" count" jdbcType="INTEGER" property="count"/>
+        <result column=" request" jdbcType="LONGVARCHAR" property="request"/>
+        <result column=" response" jdbcType="LONGVARCHAR" property="response"/>
+        <result column=" log_info" jdbcType="LONGVARCHAR" property="logInfo"/>
+
+        <result column=" runtime" jdbcType="VARCHAR" property="runtime"/>
+    </resultMap>
+
+    <sql id="Log_Base_Column_List">
+
+        natural_key,
+        ip_address,
+        log_operation_type,
+        log_module,
+        log_submodule,
+        operation_time,
+        operator,
+        log_directory,
+        status,
+        count,
+        request,
+        response,
+        log_info,
+        log_error,
+        runtime
+    </sql>
+
+    <insert id="insertLogInfo" parameterType="com.ml.timi.utils.LogTemplate" useGeneratedKeys="true">
+        insert into log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="naturalKey != null">
+                natural_key,
+            </if>
+            <if test="ipAddress != null">
+                ip_address,
+            </if>
+            <if test="logOperationType != null">
+                log_operation_type,
+            </if>
+            <if test="logModule != null">
+                log_module,
+            </if>
+            <if test="logSubModule != null">
+                log_submodule,
+            </if>
+            <if test="operationTime != null">
+                operation_time,
+            </if>
+            <if test="operator != null">
+                operator,
+            </if>
+            <if test="logDirectory != null">
+                log_directory,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="logInfo != null">
+                log_info,
+            </if>
+            <if test="logError != null">
+                log_error,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="naturalKey != null">
+                #{naturalKey,jdbcType=INTEGER},
+            </if>
+            <if test="ipAddress != null">
+                #{ipAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="logOperationType != null">
+                #{logOperationType,jdbcType=VARCHAR},
+            </if>
+            <if test="logModule != null">
+                #{logModule,jdbcType=VARCHAR},
+            </if>
+            <if test="logSubModule != null">
+                #{logSubModule,jdbcType=VARCHAR},
+            </if>
+            <if test="operationTime != null">
+                #{operationTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="operator != null">
+                #{operator,jdbcType=VARCHAR},
+            </if>
+
+            <if test="logDirectory != null">
+                #{logDirectory,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="count != null">
+                #{count,jdbcType=INTEGER},
+            </if>
+            <if test="logInfo != null">
+                #{logInfo,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="logError != null">
+                #{logError,jdbcType=LONGVARCHAR},
+            </if>
+
+
+        </trim>
+
+    </insert>
+
+
+    <insert id="insertLogInfoList" parameterType="java.util.List" useGeneratedKeys="true">
+        insert into log
+        (<include refid="Log_Base_Column_List"/>)
+        values
+
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.naturalKey,jdbcType=VARCHAR}, #{item.ipAddress,jdbcType=VARCHAR},
+            #{item.logOperationType,jdbcType=VARCHAR}, #{item.logModule,jdbcType=VARCHAR},
+            #{item.logSubModule,jdbcType=VARCHAR}, #{item.operationTime,jdbcType=TIMESTAMP},
+            #{item.operator,jdbcType=VARCHAR},#{item.logDirectory,jdbcType=VARCHAR},
+            #{item.status,jdbcType=VARCHAR},#{item.count,jdbcType=INTEGER},
+            #{item.logInfo,jdbcType=LONGVARCHAR},#{item.logError,jdbcType=LONGVARCHAR},
+            #{item.runtime,jdbcType=VARCHAR}
+
+            )
+        </foreach>
+
+    </insert>
+    <insert id="TestinsertForeach">
+        insert into log
+        (<include refid="Log_Base_Column_List"/>)
+        values
+
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.naturalKey,jdbcType=VARCHAR}, #{item.ipAddress,jdbcType=VARCHAR},
+            #{item.logOperationType,jdbcType=VARCHAR}, #{item.logModule,jdbcType=VARCHAR},
+            #{item.logSubModule,jdbcType=VARCHAR}, #{item.operationTime,jdbcType=TIMESTAMP},
+            #{item.operator,jdbcType=VARCHAR},#{item.logDirectory,jdbcType=VARCHAR},
+            #{item.status,jdbcType=VARCHAR},#{item.count,jdbcType=INTEGER},
+            #{item.request,jdbcType=LONGVARCHAR},#{item.response,jdbcType=LONGVARCHAR},
+            #{item.logInfo,jdbcType=LONGVARCHAR},#{item.logError,jdbcType=LONGVARCHAR},
+            #{item.runtime,jdbcType=VARCHAR}
+
+            )
+        </foreach>
+    </insert>
+
+
+    <select id="findUserById" resultType="com.ml.timi.model.entity.User">
+
+        select name
+        from user
+        where id = #{id};
+    </select>
+
+
+</mapper>

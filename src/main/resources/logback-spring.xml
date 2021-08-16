@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+
+<configuration>
+    <!-- 定义全局参数常量 -->
+    <property name="log.level" value="debug"/>
+    <property name="log.maxHistory" value="2"/><!-- 30表示30个 -->
+    <!-- 日志的存放位置 -->                    <!--catalina.base表示tomcat的根路径  -->
+    <property name="log.filePath" value="D:/TiMiLog"/>
+    <!-- 日志的展现格式 -->
+    <property name="log.pattern" value="%d{yyyy-MM-dd : HH:mm:ss.SSS}[%thread]%-5level%logger{50}-%msg%n"/>
+
+
+    <!--配置规则类位置，获取节点ip-->
+    <conversionRule conversionWord="ip" converterClass="com.ml.timi.utils.LogIpConfig" />
+    <!-- <conversionRule conversionWord="apigateway" converterClass="ch.qos.logback.classic.pattern.LoggerConverter"/>
+     <property name="collectLogPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}#|###|#%ip#|###|#%contextName#|###|#%msg%n"/>-->
+
+
+
+
+    <!--配置控制台的输出-->
+    <appender name="Console_Log_Config" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%magenta([%d]) %boldCyan([%ip]) %highlight(%level)  %mdc  [%logger{35}]  - %boldBlue(%msg%n)</pattern>
+        </layout>
+    </appender>
+
+    <!--文件输出info日志的配置-->
+    <appender name="Info_Log_Config" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--为了在info中不出现error的日志，因为error的日志级别最高，所以我们不用普通的过滤器，而是在权限过滤器下匹配相应级别的日志，进行筛选-->
+        <!--筛选的级别有三种 DENY ACCEPT  NEUTRAL  禁止，接受和中立   具体看类 filterReply-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--设置权限 ，level级别设置为ERROR级别，如果匹配到为ERROR级别，则禁止写入该配置（），-->
+            <level>ERROR</level>
+            <!--命中-->
+            <onMatch>DENY</onMatch><!--表示如果匹配则禁止 （<level>ERROR</level>）ERROR级别权限 则禁止写入该配置-->
+            <!--未命中-->
+            <onMismatch>ACCEPT</onMismatch><!--表示如果不匹配则拒绝 （<level>ERROR</level>）ERROR级别权限 则允许写入该配置-->
+        </filter>
+        <!--配置日志输出格式-->
+        <encoder>
+            <pattern>[%d] [%ip] %level %mdc [%logger{35}] - %msg%n</pattern>
+        </encoder>
+        <!-- 文件路径 -->
+        <file>${log.filePath}/Info.log</file><!-- 当前的日志文件存放路径 -->
+        <!--滚动策略 按照时间来滚动 每日创建一个日志文件-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.filePath}/Info/Info.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!--控制保留的归档文件的最大数量，查过数量就删除旧文件，假设设置没一个月滚动，且  <MaxHistory>1</MaxHistory> 是1，则保存最近一个月的文件，删除之前的旧文件-->
+            <MaxHistory>${log.maxHistory}</MaxHistory>
+        </rollingPolicy>
+    </appender>
+
+
+    <!--文件输出error日志的配置-->
+    <appender name="Error_Log_Config" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--为了在error日志中没有info日志，所以我们设置一个过滤器 记住是ThresholdFilter，不是levelFilter-->
+        <filter class = "ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <encoder>
+            <pattern>[%d] [%ip] %level %mdc [%logger{35}] - %msg%n</pattern>
+        </encoder>
+        <!-- 文件路径 -->
+        <file>${log.filePath}/Error.log</file><!-- 当前的日志文件存放路径 -->
+        <!--滚动策略 按照时间来滚动-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.filePath}/Error/Error.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <!--控制保留的归档文件的最大数量，查过数量就删除旧文件，假设设置没一个月滚动，且  <MaxHistory>1</MaxHistory> 是1，则保存最近一个月的文件，删除之前的旧文件-->
+            <MaxHistory>${log.maxHistory}</MaxHistory>
+        </rollingPolicy>
+    </appender>
+
+
+
+    <root level="info">
+        <appender-ref ref="Console_Log_Config"/>
+        <appender-ref ref="Info_Log_Config"/>
+        <appender-ref ref="Error_Log_Config"/>
+    </root>
+
+
+</configuration>
