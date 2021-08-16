@@ -9,18 +9,21 @@
 
 package com.ml.timi.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ml.timi.config.template.LogDirectory;
 import com.ml.timi.config.template.Module;
 import com.ml.timi.config.template.OperationType;
 import com.ml.timi.config.template.Status;
 import com.ml.timi.mapper.UserMapper;
 import com.ml.timi.model.entity.User;
-import com.ml.timi.model.request.RequestTemplate;
+import com.ml.timi.model.entity.UserTest;
+import com.ml.timi.model.log.request.RequestTemplate;
+import com.ml.timi.model.log.response.ResponseBody;
+import com.ml.timi.model.log.response.ResponseTemplate;
 import com.ml.timi.utils.InterfaceResponse;
 import com.ml.timi.service.LogService;
 import com.ml.timi.service.TestWebService;
 import com.ml.timi.utils.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,27 +65,84 @@ public class TestWebServiceImpl implements TestWebService {
 
 
     @Override
-    public String registerList(String requestData, String requestMD5) throws JsonProcessingException {
+    public String registerList(String requestData, String requestMD5) throws Exception {
         //校验请求数据
         JsonData jsonData = CommonUtils.CheckInterfaceParam(requestData, requestMD5);
-        //将校验后的返回数据转换为JSON字符串
-        RESPONSE = JSONUtil.objectToJson(jsonData);
-        //int cc = 1/0;
+        String responseError = "状态码：" + jsonData.getCode() + "\n" + "信息：" + jsonData.getMsg();
 
+        if (jsonData.getCode() != 3000) {
+            throw new Exception(responseError);
+        }
         //状态码：3000，则校验数据通过
-        if (jsonData.getCode() == 3000) {
+        else {
+
+
+            RequestTemplate requestTemplate = new RequestTemplate();
+            List<UserTest> requestBodyList = new ArrayList<>();
+
+            //将请求的Json数据转换为对象
+            requestTemplate = JSONUtil.jsonToEntity(requestData, RequestTemplate.class);
+            //将请求体的Json数据转换为对象
+            requestBodyList = JSONUtil.jsonToList(requestTemplate.getRequestBody(), UserTest.class);
+
+            //将requestTemplate数据存储到数据库
+
+            //将requestTemplate写入日志
+            if (ObjectUtils.isEmpty(requestBodyList)) {
+                ResponseTemplate responseTemplate = new ResponseTemplate.ResponseTemplateBuilder()
+                        .setBatchId(requestTemplate.getBatchId())
+                        .setModule(requestTemplate.getModule())
+                        .setResponseStatus(Status.ERROR)
+                        .setResponseStatusMessage("请求体（ requestBody）数据为空，请检查！")
+                        .setResponseBodyCount(0)
+                        .setResponseBodySuccessCount(0)
+                        .setResponseBodyErrorCount(0)
+                        .setResponseTime(LocalDateTime.now())
+                        .setResponseBody(null)
+                        .build();
+                return JSONUtil.objectToJson(responseTemplate);
+            } else {
+                for (UserTest userTest : requestBodyList) {
+
+
+                        //将requestBodyList数据存储到数据库
+                        //单条循环插入，
+                        //错误数据回滚后，并记录错误日志信息，返回响应
+
+
+
+                }
+
+
+                //将requestBodyList写入日志
+            }
+
+
+            ResponseTemplate responseTemplate = new ResponseTemplate.ResponseTemplateBuilder()
+                    .setBatchId(requestTemplate.getBatchId())
+                    .setModule(requestTemplate.getModule())
+                    .setResponseStatus(Status.SUCCESS)
+                    .setResponseStatusMessage("成功")
+                    .setResponseBodyCount(0)
+                    .setResponseBodySuccessCount(0)
+                    .setResponseBodyErrorCount(0)
+                    .setResponseTime(LocalDateTime.now())
+                    .setResponseBody(null)
+                    .build();
+
+
             List<RequestTemplate> requestTemplateList = new ArrayList<>();
+
+
             List<User> userList = new ArrayList<>();
             List<LogTemplate> logTemplateList = new ArrayList<>();
             List<String> RESPONSEList = new ArrayList<>();
             //将请求数据转为对象集合
 
 
-
             //如果转换对象为空则返回转换失败
 
             requestTemplateList = JSONUtil.jsonToList(requestData, RequestTemplate.class);
-
 
 
             LocalDateTime a = LocalDateTime.now();
@@ -149,12 +209,12 @@ public class TestWebServiceImpl implements TestWebService {
 
 
         }
-        return RESPONSE;
+
     }
 
 
     @Override
-    public Object register(String requestData, String requestMD5) {
+    public Object register(String requestData, String requestMD5) throws Exception {
 
         //校验请求数据
         JsonData jsonData = CommonUtils.CheckInterfaceParam(requestData, requestMD5);

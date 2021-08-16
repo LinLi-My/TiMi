@@ -6,7 +6,7 @@
  */
 
 
-package com.ml.timi.model.request;
+package com.ml.timi.model.log.request;
 
 import lombok.Data;
 

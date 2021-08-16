@@ -1,4 +1,4 @@
-package com.ml.timi.model.request;
+package com.ml.timi.model.log.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;

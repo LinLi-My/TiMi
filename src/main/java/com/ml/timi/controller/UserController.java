@@ -2,7 +2,7 @@ package com.ml.timi.controller;
 
 import com.ml.timi.config.enums.ResultEnum;
 import com.ml.timi.model.entity.User;
-import com.ml.timi.model.request.LoginRequest;
+import com.ml.timi.model.log.request.LoginRequest;
 import com.ml.timi.service.UserService;
 import com.ml.timi.utils.JsonData;
 import org.springframework.web.bind.annotation.*;

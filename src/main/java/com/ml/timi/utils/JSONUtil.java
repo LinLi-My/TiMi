@@ -42,9 +42,9 @@ public class JSONUtil {
             String string = MAPPER.writeValueAsString(data);
             return string;
         } catch (JsonProcessingException e) {
-           // throw new Exception(objectToJsonErrorMessage);
+            throw new Exception(objectToJsonErrorMessage);
         }
-        return null;
+
     }
 
 
@@ -63,7 +63,7 @@ public class JSONUtil {
             T t = MAPPER.readValue(jsonData, beanType);
             return t;
         } catch (Exception e) {
-            //throw new Exception(jsonToEntityErrorMessage);
+            throw new Exception(jsonToEntityErrorMessage);
         }
 
     }
@@ -87,7 +87,7 @@ public class JSONUtil {
             List<T> list = MAPPER.readValue(jsonData, javaType);
             return list;
         } catch (Exception e) {
-           // throw new Exception(jsonToListErrorMessage);
+            throw new Exception(jsonToListErrorMessage);
         }
 
     }

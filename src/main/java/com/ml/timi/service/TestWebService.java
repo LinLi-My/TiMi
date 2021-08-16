@@ -19,7 +19,7 @@ public interface TestWebService {
      * @param           requestMD5     接收的MD5
      * @return          int            返回插入数量
      */
-    String registerList(String requestData, String requestMD5) throws JsonProcessingException;
+    String registerList(String requestData, String requestMD5) throws Exception;
 
     /**
      * Method               registerList
@@ -31,7 +31,7 @@ public interface TestWebService {
      * @param           requestMD5     接收的MD5
      * @return          int            返回插入数量
      */
-    Object register(String requestData, String requestMD5);
+    Object register(String requestData, String requestMD5) throws Exception;
 
 
 }
