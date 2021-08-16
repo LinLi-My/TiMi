@@ -14,7 +14,7 @@ import com.ml.timi.utils.ExpertionLin;
 
 public class Test {
 
-    public static int A() {
+    public static int A() throws Exception {
         for (int i = 0; i < 10; i++) {
 
             try {
@@ -23,10 +23,9 @@ public class Test {
                 }
                 System.out.println(i);
             } catch (Exception e) {
-                System.out.println(ExpertionLin.Infor(e));
-
-                return 1;
-
+                // System.out.println(ExpertionLin.Infor(e));
+                //throw e;
+                throw new Exception("不能输入负数");
 
             }
 
@@ -36,7 +35,7 @@ public class Test {
         return 2;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         System.out.println(Test.A());
 

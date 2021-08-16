@@ -18,6 +18,15 @@ public class JSONUtil {
     /** 定义jackson对象 */
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
+    /** 定义对象转换Json失败 */
+    private static final String objectToJsonErrorMessage = "实体对象转换Json失败";
+
+    /** 定义Json转化实体对象失败 */
+    private static final String jsonToEntityErrorMessage = "Json转化实体对象失败";
+
+    /** 定义Json转换集合失败 */
+    private static final String jsonToListErrorMessage = "Json转换集合失败";
+
 
     /**
      * Method               objectToJson
@@ -28,12 +37,12 @@ public class JSONUtil {
      * @param               data
      * @return java.lang.String
      */
-    public static String objectToJson(Object data) {
+    public static String objectToJson(Object data) throws Exception {
         try {
             String string = MAPPER.writeValueAsString(data);
             return string;
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+           // throw new Exception(objectToJsonErrorMessage);
         }
         return null;
     }
@@ -49,14 +58,14 @@ public class JSONUtil {
      * @param           beanType    对象中的object类型
      * @return          T           返回对象中的object类型
      */
-    public static <T> T jsonToEntity(String jsonData, Class<T> beanType) {
+    public static <T> T jsonToEntity(String jsonData, Class<T> beanType) throws Exception {
         try {
             T t = MAPPER.readValue(jsonData, beanType);
             return t;
         } catch (Exception e) {
-            e.printStackTrace();
+            //throw new Exception(jsonToEntityErrorMessage);
         }
-        return null;
+
     }
 
 
@@ -70,7 +79,7 @@ public class JSONUtil {
      * @param           beanType    对象中的object类型
      * @return          java.util.List<T>   返回泛型List集合
      */
-    public static <T> List<T> jsonToList(String jsonData, Class<T> beanType)  {
+    public static <T> List<T> jsonToList(String jsonData, Class<T> beanType) throws Exception {
 
 
         JavaType javaType = MAPPER.getTypeFactory().constructParametricType(List.class, beanType);
@@ -78,9 +87,9 @@ public class JSONUtil {
             List<T> list = MAPPER.readValue(jsonData, javaType);
             return list;
         } catch (Exception e) {
-            e.printStackTrace();
+           // throw new Exception(jsonToListErrorMessage);
         }
-        return null;
+
     }
 
 

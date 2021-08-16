@@ -9,7 +9,6 @@ import lombok.Data;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * ClassName:
@@ -22,111 +21,151 @@ import java.util.List;
 @Data
 public class RequestTemplate {
 
+    /** 自增主键 */
+    private int id;
+
     /** 批次标识 */
-    String batchId ;
+    private String batchId;
 
     /** 模块 */
-    String module;
+    private String module;
 
     /** 请求数据 */
-    List requestDate;
+    private String requestBody;
 
-    /** MD5 */
-    String MD5;
+    /** 请求状态 */
+    private String requestStatus;
 
-    /** 下传状态 */
-    String downloadStatus;
+    /** 请求状态信息 */
+    private String requestStatusMessage;
 
-    /** 下传时间 */
+    /** 请求时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    LocalDateTime downloadTime;
+    private LocalDateTime requestTime;
 
-    /** 下传数量 */
-    int downloadCount;
+    /** 请求体数量 */
+    private int requestBodyCount;
 
     /** 耗时 */
-    String elapsedTime;
-
-    /** 回传时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    LocalDateTime postBackTime;
-
-    /** 回传状态 */
-    String postBackStatus;
-
-    /** 回传数量 */
-    int postBackCount;
-
-    /** 回传成功数量 */
-    int postBackSuccessCount;
-
-    /** 回传失败数量 */
-    int postBackErrorCount;
+    private String elapsedTime;
 
     public RequestTemplate() {
     }
 
-        public RequestTemplate(String batchId, String module, List requestDate, String downloadStatus, int downloadCount, String elapsedTime) {
+
+    public RequestTemplate(String batchId, String module, String requestBody, String requestStatus, String requestStatusMessage, int requestBodyCount, String elapsedTime) {
         this.batchId = batchId;
         this.module = module;
-        this.requestDate = requestDate;
-        this.downloadStatus = downloadStatus;
-        this.downloadTime = LocalDateTime.now();
-        this.downloadCount = downloadCount;
+        this.requestBody = requestBody;
+        this.requestStatus = requestStatus;
+        this.requestStatusMessage = requestStatusMessage;
+        this.requestTime = LocalDateTime.now();
+        this.requestBodyCount = requestBodyCount;
         this.elapsedTime = elapsedTime;
     }
 
-    public RequestTemplate(String batchId, LocalDateTime postBackTime, String postBackStatus, int postBackCount, int postBackSuccessCount, int postBackErrorCount) {
-        this.batchId = batchId;
-        this.postBackTime = postBackTime;
-        this.postBackStatus = postBackStatus;
-        this.postBackCount = postBackCount;
-        this.postBackSuccessCount = postBackSuccessCount;
-        this.postBackErrorCount = postBackErrorCount;
+    public static final class RequestTemplateBuilder {
+        private int id;
+        private String batchId;
+        private String module;
+        private String requestBody;
+        private String requestStatus;
+        private String requestStatusMessage;
+        private LocalDateTime requestTime;
+        private int requestBodyCount;
+        private String elapsedTime;
+
+        public RequestTemplateBuilder() {
+        }
+
+        public static RequestTemplateBuilder aRequestTemplate() {
+            return new RequestTemplateBuilder();
+        }
+
+        public RequestTemplateBuilder setId(int id) {
+            this.id = id;
+            return this;
+        }
+
+        public RequestTemplateBuilder setBatchId(String batchId) {
+            this.batchId = batchId;
+            return this;
+        }
+
+        public RequestTemplateBuilder setModule(String module) {
+            this.module = module;
+            return this;
+        }
+
+        public RequestTemplateBuilder setRequestBody(String requestBody) {
+            this.requestBody = requestBody;
+            return this;
+        }
+
+        public RequestTemplateBuilder setRequestStatus(String requestStatus) {
+            this.requestStatus = requestStatus;
+            return this;
+        }
+
+        public RequestTemplateBuilder setRequestStatusMessage(String requestStatusMessage) {
+            this.requestStatusMessage = requestStatusMessage;
+            return this;
+        }
+
+        public RequestTemplateBuilder setRequestTime(LocalDateTime requestTime) {
+            this.requestTime = requestTime;
+            return this;
+        }
+
+        public RequestTemplateBuilder setRequestBodyCount(int requestBodyCount) {
+            this.requestBodyCount = requestBodyCount;
+            return this;
+        }
+
+        public RequestTemplateBuilder setElapsedTime(String elapsedTime) {
+            this.elapsedTime = elapsedTime;
+            return this;
+        }
+
+        public RequestTemplate build() {
+            RequestTemplate requestTemplate = new RequestTemplate();
+            requestTemplate.setId(id);
+            requestTemplate.setBatchId(batchId);
+            requestTemplate.setModule(module);
+            requestTemplate.setRequestBody(requestBody);
+            requestTemplate.setRequestStatus(requestStatus);
+            requestTemplate.setRequestStatusMessage(requestStatusMessage);
+            requestTemplate.setRequestTime(requestTime);
+            requestTemplate.setRequestBodyCount(requestBodyCount);
+            requestTemplate.setElapsedTime(elapsedTime);
+            return requestTemplate;
+        }
     }
 
-    /**
-     * Method               SetLogMiner
-     * Description          记录下传批次的日志
-     * Author               Lin
-     * Date                 2021/7/23 15:25
-     * Version              1.0.0
-     * @param           batchId
-     * @param           module
-     * @param           requestDate
-     * @param           downloadStatus
-     * @param           downloadCount
-     * @param           elapsedTime
-     * @return          com.ml.timi.utils.LogMiner
-     */
-    public static RequestTemplate SetLogMiner(String batchId, String module, List requestDate, String downloadStatus, int downloadCount, String elapsedTime){
 
-        return new RequestTemplate(batchId,module,requestDate,downloadStatus,downloadCount, elapsedTime);
-    }
+    @Override
+    public String toString() {
 
-    /**
-     * Method               SetBackLogMiner
-     * Description          记录回传日志
-     * Author               Lin
-     * Date                 2021/7/23 15:33
-     * Version              1.0.0
-     * @param           batchId
-     * @param           postBackTime
-     * @param           postBackStatus
-     * @param           postBackCount
-     * @param           postBackSuccessCount
-     * @param           postBackErrorCount
-     * @return          com.ml.timi.utils.LogMiner
-     */
-    public static RequestTemplate SetBackLogMiner(String batchId, LocalDateTime postBackTime, String postBackStatus, int postBackCount, int postBackSuccessCount, int postBackErrorCount){
+        return  "\n"+"【 请求数据日志"+
+                "\n"+"批次标识：[" + batchId + "]    " +
+                "模块：[" + module + "]    " +
+                "请求时间：[" + requestTime + "]    " +
+                "请求体数量：[" + requestBodyCount + "]    " +
+                "elapsedTime：[" + elapsedTime + "]    " +
+                "\n" + "请求状态：[" + requestStatus + "]    " +
+                "请求状态信息：[" + requestStatusMessage + "]    " +
+                "\n" + "请求数据：[" + requestBody + "]    "+
+                "\n" + "】"
+                ;
 
-
-        return new RequestTemplate(batchId,postBackTime,postBackStatus,postBackCount,postBackSuccessCount,postBackErrorCount);
     }
 
 
 }
+
+
+
+
+

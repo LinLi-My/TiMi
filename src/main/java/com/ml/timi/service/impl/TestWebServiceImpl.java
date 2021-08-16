@@ -9,12 +9,14 @@
 
 package com.ml.timi.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ml.timi.config.template.LogDirectory;
 import com.ml.timi.config.template.Module;
 import com.ml.timi.config.template.OperationType;
 import com.ml.timi.config.template.Status;
 import com.ml.timi.mapper.UserMapper;
 import com.ml.timi.model.entity.User;
+import com.ml.timi.model.request.RequestTemplate;
 import com.ml.timi.utils.InterfaceResponse;
 import com.ml.timi.service.LogService;
 import com.ml.timi.service.TestWebService;
@@ -60,25 +62,27 @@ public class TestWebServiceImpl implements TestWebService {
 
 
     @Override
-    public String registerList(String requestData, String requestMD5) {
+    public String registerList(String requestData, String requestMD5) throws JsonProcessingException {
         //校验请求数据
         JsonData jsonData = CommonUtils.CheckInterfaceParam(requestData, requestMD5);
         //将校验后的返回数据转换为JSON字符串
         RESPONSE = JSONUtil.objectToJson(jsonData);
-        //System.out.println(RESPONSE);
+        //int cc = 1/0;
+
         //状态码：3000，则校验数据通过
         if (jsonData.getCode() == 3000) {
+            List<RequestTemplate> requestTemplateList = new ArrayList<>();
             List<User> userList = new ArrayList<>();
             List<LogTemplate> logTemplateList = new ArrayList<>();
             List<String> RESPONSEList = new ArrayList<>();
             //将请求数据转为对象集合
 
-            userList = JSONUtil.jsonToList(requestData, User.class);
-            //如果转换对象为空则返回转换失败
-            if (userList == null) {
 
-                return "数据转换失败";
-            }
+
+            //如果转换对象为空则返回转换失败
+
+            requestTemplateList = JSONUtil.jsonToList(requestData, RequestTemplate.class);
+
 
 
             LocalDateTime a = LocalDateTime.now();
