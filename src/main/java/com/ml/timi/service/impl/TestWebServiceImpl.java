@@ -106,7 +106,7 @@ public class TestWebServiceImpl implements TestWebService {
 
 
                         //将requestBodyList数据存储到数据库
-                        //单条循环插入，。。
+                        //单条循环插入，。。123
                         //错误数据回滚后，并记录错误日志信息，返回响应123
 
 
