@@ -2,6 +2,7 @@ package com.ml.timi.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.List;
@@ -91,6 +92,28 @@ public class JSONUtil {
         }
 
     }
+    /*public static <T> List<T> getValue(String jsonData, Class<T> beanType) throws Exception {
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(jsonData);
+        //获取name字段值
+        JsonNode name = jsonNode.get("name");
+        String s = name.asText();
+        System.out.println(s);
+        //获取elements字段下数组第二个对象的age
+        JsonNode elements = jsonNode.get("elements");
+        JsonNode object2 = elements.get(1);//从0开始哦
+        JsonNode age = object2.get("age");
+        int i = age.asInt();
+        System.out.println(i);
+        JavaType javaType = MAPPER.getTypeFactory().constructParametricType(List.class, beanType);
+        try {
+            List<T> list = MAPPER.readValue(jsonData, javaType);
+            return list;
+        } catch (Exception e) {
+            throw new Exception(jsonToListErrorMessage);
+        }
+
+    }*/
 
 
 

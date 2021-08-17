@@ -58,7 +58,7 @@ public class InterfaceResponse {
      * 成功响应结果封装
      * @return
      */
-    public static String responseSuccess(String naturalKey) {
+    public static String responseSuccess(String naturalKey) throws Exception {
         return JSONUtil.objectToJson(
                 JsonData.resultData(ResultEnum.INSERT_SUCCESS, new InterfaceResponse(naturalKey))
         );
@@ -68,7 +68,7 @@ public class InterfaceResponse {
      * 失败响应结果封装
      * @return
      */
-    public static String responseError(String naturalKey, String msg) {
+    public static String responseError(String naturalKey, String msg) throws Exception {
         return JSONUtil.objectToJson(
                 JsonData.resultData(ResultEnum.INSERT_ERROR, new InterfaceResponse(naturalKey, msg))
         );

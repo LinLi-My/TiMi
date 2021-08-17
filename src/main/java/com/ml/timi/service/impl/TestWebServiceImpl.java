@@ -9,6 +9,8 @@
 
 package com.ml.timi.service.impl;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.*;
 import com.ml.timi.config.template.LogDirectory;
 import com.ml.timi.config.template.Module;
 import com.ml.timi.config.template.OperationType;
@@ -28,6 +30,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.annotation.Resource;
 import javax.jws.WebService;
@@ -62,13 +65,21 @@ public class TestWebServiceImpl implements TestWebService {
     @Resource
     SqlSessionFactory sqlSessionFactory;
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-
+    Gson gson = new GsonBuilder()
+            .setPrettyPrinting() //格式化输出的json
+            .serializeNulls()    //有NULL值是也进行解析
+            .disableHtmlEscaping()  //解析特殊符号
+            .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())   ////为某特定对象设置固定的序列或反序列方式，自定义Adapter需实现JsonSerializer或者JsonDeserializer接口序列化[LocalDateTime的解析]
+            .registerTypeAdapter(JsonElement.class, new LocalDateTimeAdapter())     //反序列化LocalDateTime(String——>LocalDateTime)的解析
+            .create();
 
     @Override
     public String registerList(String requestData, String requestMD5) throws Exception {
+
         //校验请求数据
         JsonData jsonData = CommonUtils.CheckInterfaceParam(requestData, requestMD5);
         String responseError = "状态码：" + jsonData.getCode() + "\n" + "信息：" + jsonData.getMsg();
+
 
         if (jsonData.getCode() != 3000) {
             throw new Exception(responseError);
@@ -76,14 +87,15 @@ public class TestWebServiceImpl implements TestWebService {
         //状态码：3000，则校验数据通过
         else {
 
-
             RequestTemplate requestTemplate = new RequestTemplate();
             List<UserTest> requestBodyList = new ArrayList<>();
 
             //将请求的Json数据转换为对象
-            requestTemplate = JSONUtil.jsonToEntity(requestData, RequestTemplate.class);
+            requestTemplate = gson.fromJson(requestData, RequestTemplate.class);
+
             //将请求体的Json数据转换为对象
-            requestBodyList = JSONUtil.jsonToList(requestTemplate.getRequestBody(), UserTest.class);
+            //requestBodyList = gson.fromJson(requestTemplate.getRequestBody(),UserTest.class);
+            //requestBodyList = JSONUtil.jsonToList(requestTemplate.getRequestBody(), UserTest.class);
 
             //将requestTemplate数据存储到数据库
 
@@ -102,13 +114,12 @@ public class TestWebServiceImpl implements TestWebService {
                         .build();
                 return JSONUtil.objectToJson(responseTemplate);
             } else {
-                for (UserTest userTest : requestBodyList) {
+                for (UserTest requestBody : requestBodyList) {
 
 
-                        //将requestBodyList数据存储到数据库
-                        //单条循环插入，。。123
-                        //错误数据回滚后，并记录错误日志信息，返回响应123
-
+                    //将requestBodyList数据存储到数据库
+                    //单条循环插入，。。123
+                    //错误数据回滚后，并记录错误日志信息，返回响应123
 
 
                 }
