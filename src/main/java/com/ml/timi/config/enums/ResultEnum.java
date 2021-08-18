@@ -20,14 +20,23 @@ public enum ResultEnum {
     VERIFICATION_PASSED(3000, "验证通过"),
 
     /**
-     *   数据为空
+     *   requestData
      */
-    Null_Data(-3001, "数据为空"),
+    Null_RequestData(-3001, "RequestData为空"),
 
+    /**
+     *   ResultBodyData为空
+     */
+    Null_RequestDataBody(-3002, "RequestDataBody为空"),
     /**
      *   MD5不一致
      */
-    MD5_INEQUALITY(-3002, "MD5不一致"),
+    MD5_INEQUALITY(-3003, "MD5不一致"),
+
+    /**
+     *   数据解析错误
+     */
+    Data_Parsing_Error(-3004, "数据解析错误"),
 
     /**
      *   未授权

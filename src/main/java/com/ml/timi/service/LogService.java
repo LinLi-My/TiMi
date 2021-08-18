@@ -1,5 +1,6 @@
 package com.ml.timi.service;
 
+import com.ml.timi.model.log.request.RequestTemplate;
 import com.ml.timi.utils.LogTemplate;
 import org.springframework.stereotype.Service;
 
@@ -20,4 +21,6 @@ public interface LogService {
     int insertLogInfo(LogTemplate logTemplate);
 
     int insertLogInfoList(List<LogTemplate> logTemplateList);
+
+    RequestTemplate insertRequestTemplate(RequestTemplate requestTemplate);
 }

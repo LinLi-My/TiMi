@@ -34,6 +34,15 @@
         runtime
     </sql>
 
+    <!--新增RequestTemplate(request)所有列-->
+    <insert id="insertRequestTemplate" keyProperty="id" useGeneratedKeys="true">
+        insert into request_template
+        (<include refid="Log_Base_Column_List"/>)
+        values
+        (#{batchId}, #{module}, #{requestStatus}, #{requestStatusMessage}, #{requestTime}, #{requestBodyCount},
+        #{requestBody})
+
+    </insert>
 
     <insert id="insertLogInfo" parameterType="com.ml.timi.utils.LogTemplate">
         insert into log

@@ -1,5 +1,6 @@
 package com.ml.timi.mapper;
 
+import com.ml.timi.model.log.request.RequestTemplate;
 import com.ml.timi.utils.LogTemplate;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,6 +15,14 @@ import java.util.List;
  */
 @Mapper
 public interface LogMapper {
+
+    /**
+     * 新增数据
+     *
+     * @param requestTemplate 实例对象
+     * @return 影响行数
+     */
+    int insertRequestTemplate(RequestTemplate requestTemplate);
 
     /**
      * Method               insertLogInfo
