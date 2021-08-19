@@ -26,6 +26,7 @@ import com.ml.timi.model.log.response.ResponseTemplate;
 import com.ml.timi.service.LogService;
 import com.ml.timi.service.TestWebService;
 import com.ml.timi.utils.*;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,8 +88,9 @@ public class TestWebServiceImpl implements TestWebService {
             //将请求数据插入日志
             LOGGER.info(requestTemplate.toString());
 
+            String aaaa = requestTemplate.getRequestBody();
             //将请求体的Json数据转换为List<UserTest>
-            requestBodyList = gson.fromJson(requestTemplate.getRequestBody(),
+            requestBodyList = gson.fromJson(aaaa,
                     new TypeToken<List<UserTest>>() {
                     }.getType());
             for (UserTest requestBody : requestBodyList) {
@@ -96,17 +98,20 @@ public class TestWebServiceImpl implements TestWebService {
                 //将requestBodyList数据存储到数据库
                 //单条循环插入
 
-
                 //错误数据回滚后，并记录错误日志信息，返回响应
 
-                for (VideoOrder videoOrder : videoOrderList) {
+                if(ObjectUtils.isNotEmpty(videoOrderList)){
+                    for (VideoOrder videoOrder : videoOrderList) {
 
-                    //将videoOrder数据存储到数据库
-                    //单条循环插入
+                        //将videoOrder数据存储到数据库
+                        //单条循环插入
 
-                    //错误数据回滚后，并记录错误日志信息，返回响应
+                        //错误数据回滚后，并记录错误日志信息，返回响应
+
+                    }
 
                 }
+
 
 
             }
