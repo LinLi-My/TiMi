@@ -1,98 +1,48 @@
 package com.ml.timi.model.log.response;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.io.Serializable;
 
 /**
- * ClassName:
- * Description:
- * Date:           2021 2021/7/23 13:27
- * Author:         Lin
- * Copyright:      Lin
+ * (ResponseBody)实体类
+ *
+ * @author Lin
+ * @since 2021-08-30 09:42:34
  */
-@Component
+
 @Data
-public class ResponseBody {
+@Component
+public class ResponseBody implements Serializable {
 
-    /** 自增主键 */
-    private int naturalId;
+    private static final long serialVersionUID = 385157276387914894L;
 
-    /** 批次标识 */
-    private String batchId;
-
-    /** 模块 */
-    private String module;
-
+    /** 业务主键 */
+    private String naturalkey;
     /** 状态 */
     private String status;
-
-    /** 状态信息 */
-    private String massage;
-
-    /** code */
-    private String code;
-
-    /** 请求时间 */
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime responseTime;
-
-    public ResponseBody() {
-    }
-
-
-    @Override
-    public String toString() {
-
-        return  "\n"+"【 响应数据日志"+
-                "\n"+"批次标识：[" + batchId + "]    " +
-                "模块：[" + module + "]    " +
-                "响应时间：[" + responseTime + "]    " +
-                "状态：[" + status + "]    " +
-                "code：[" + code + "]    " +
-                "\n" + "状态信息：[" + massage + "]    "
-                ;
-
-    }
+    /** 信息 */
+    private String message;
+    /** 主键 */
+    private Integer id;
 
 
     public static final class ResponseBodyBuilder {
-        private int naturalId;
-        private String batchId;
-        private String module;
+        private String naturalkey;
         private String status;
-        private String massage;
-        private String code;
-        private LocalDateTime responseTime;
+        private String message;
+        private Integer id;
 
-        private ResponseBodyBuilder() {
+        public ResponseBodyBuilder() {
         }
 
         public static ResponseBodyBuilder aResponseBody() {
             return new ResponseBodyBuilder();
         }
 
-        public ResponseBodyBuilder setNaturalId(int naturalId) {
-            this.naturalId = naturalId;
-            return this;
-        }
-
-        public ResponseBodyBuilder setBatchId(String batchId) {
-            this.batchId = batchId;
-            return this;
-        }
-
-        public ResponseBodyBuilder setModule(String module) {
-            this.module = module;
+        public ResponseBodyBuilder setNaturalkey(String naturalkey) {
+            this.naturalkey = naturalkey;
             return this;
         }
 
@@ -101,36 +51,24 @@ public class ResponseBody {
             return this;
         }
 
-        public ResponseBodyBuilder setMassage(String massage) {
-            this.massage = massage;
+        public ResponseBodyBuilder setMessage(String message) {
+            this.message = message;
             return this;
         }
 
-        public ResponseBodyBuilder setCode(String code) {
-            this.code = code;
-            return this;
-        }
-
-        public ResponseBodyBuilder setResponseTime(LocalDateTime responseTime) {
-            this.responseTime = responseTime;
+        public ResponseBodyBuilder setId(Integer id) {
+            this.id = id;
             return this;
         }
 
         public ResponseBody build() {
             ResponseBody responseBody = new ResponseBody();
-            responseBody.setNaturalId(naturalId);
-            responseBody.setBatchId(batchId);
-            responseBody.setModule(module);
+            responseBody.setNaturalkey(naturalkey);
             responseBody.setStatus(status);
-            responseBody.setMassage(massage);
-            responseBody.setCode(code);
-            responseBody.setResponseTime(responseTime);
+            responseBody.setMessage(message);
+            responseBody.setId(id);
             return responseBody;
         }
     }
 }
-
-
-
-
 

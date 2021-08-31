@@ -1,5 +1,10 @@
 package com.ml.timi.model.log.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -35,9 +40,9 @@ public class RequestTemplate {
     private String requestStatusMessage;
 
     /** 请求时间 */
-    /*@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonSerialize(using = LocalDateTimeSerializer.class)*/
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
     private LocalDateTime requestTime;
 
     /** 请求体数量 */

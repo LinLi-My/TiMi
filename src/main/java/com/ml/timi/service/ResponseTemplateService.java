@@ -1,20 +1,18 @@
-package com.ml.timi.mapper.log;
+package com.ml.timi.service;
 
 import com.ml.timi.model.log.response.ResponseTemplate;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * 请求头日志(ResponseTemplate)表数据库访问层
+ * 请求头日志(ResponseTemplate)表服务接口
  *
  * @author Lin
- * @since 2021-08-27 09:37:30
+ * @since 2021-08-27 09:37:31
  */
-@Mapper
-public interface ResponseTemplateMapper {
-
+@Service
+public interface ResponseTemplateService {
     /**
      * 通过实体作为筛选条件查询
      * 查询条件为空时，则默认查询全部
@@ -33,19 +31,19 @@ public interface ResponseTemplateMapper {
     ResponseTemplate searchById(Integer id);
 
     /**
-     * 查询指定行数据
+     * 查询多条数据
      *
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<ResponseTemplate> searchAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    List<ResponseTemplate> searchAllByLimit(int offset, int limit);
 
     /**
      * 新增数据
      *
-     * @param responseTemplate ResponseTemplate对象
-     * @return 影响行数
+     * @param responseTemplate 实例对象
+     * @return 实例对象
      */
     int insert(ResponseTemplate responseTemplate);
 
@@ -69,9 +67,9 @@ public interface ResponseTemplateMapper {
      * 修改数据
      *
      * @param responseTemplate ResponseTemplate对象
-     * @return 影响行数
+     * @return 实例对象
      */
-    int update(ResponseTemplate responseTemplate);
+    ResponseTemplate update(ResponseTemplate responseTemplate);
 
     /**
      * 通过主键删除数据
@@ -82,4 +80,3 @@ public interface ResponseTemplateMapper {
     int deleteById(Integer id);
 
 }
-

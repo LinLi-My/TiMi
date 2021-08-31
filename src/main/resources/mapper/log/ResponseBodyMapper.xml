@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ml.timi.mapper.log.ResponseBodyMapper">
+
+    <resultMap type="com.ml.timi.model.log.response.ResponseBody" id="ResponseBodyMap">
+        <result property="naturalkey" column="naturalkey" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
+        <result property="message" column="message" jdbcType="VARCHAR"/>
+        <result property="id" column="id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        naturalkey, status, message, id    </sql>
+
+    <sql id="remake_Column_List_a">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="naturalkey != null and naturalkey != ''">
+                naturalkey,
+            </if>
+            <if test="status != null and status != ''">
+                status,
+            </if>
+            <if test="message != null and message != ''">
+                message,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="remake_Column_List_b">
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="naturalkey != null and naturalkey != ''">
+                #{naturalkey ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null and status != ''">
+                #{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="message != null and message != ''">
+                #{message ,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </sql>
+
+
+    <!--查询单个-->
+    <select id="searchById" resultMap="ResponseBodyMap">
+        select
+        (<include refid="Base_Column_List"/>)
+
+        from timi.response_body
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="searchAllByLimit" resultMap="ResponseBodyMap">
+        select
+        (<include refid="Base_Column_List"/>)
+
+        from timi.response_body
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="search" resultMap="ResponseBodyMap">
+        select
+        (<include refid="Base_Column_List"/>)
+
+        from timi.response_body
+        <where>
+            <if test="naturalkey != null and naturalkey != ''">
+                and naturalkey = #{naturalkey ,jdbcType=VARCHAR}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status ,jdbcType=VARCHAR}
+            </if>
+            <if test="message != null and message != ''">
+                and message = #{message ,jdbcType=VARCHAR}
+            </if>
+            <if test="id != null">
+                and id = #{id ,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into timi.response_body
+        <include refid="remake_Column_List_a"/>
+        <include refid="remake_Column_List_b"/>
+    </insert>
+
+
+    <!--批量新增数据-->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into timi.response_body
+        (
+        naturalkey,
+        status,
+        message
+        )
+        values
+        <foreach collection="responseBodyList" item="entity" separator=",">
+            (
+            #{entity.naturalkey},
+            #{entity.status},
+            #{entity.message}
+            )
+        </foreach>
+    </insert>
+
+
+    <!--批量新增或按主键更新数据-->
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into timi.response_body
+        (
+
+        naturalkey,
+        status,
+        message
+        )
+        values
+        <foreach collection="responseBodyList" item="entity" separator=",">
+            (
+            #{entity.naturalkey},
+            #{entity.status},
+            #{entity.message}
+            )
+        </foreach>
+        on duplicate key update
+        naturalkey = values(naturalkey) ,
+        status = values(status) ,
+        message = values(message)
+    </insert>
+
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update timi.response_body
+        <set>
+            <if test="naturalkey != null and naturalkey != ''">
+                naturalkey = #{naturalkey ,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status ,jdbcType=VARCHAR},
+            </if>
+            <if test="message != null and message != ''">
+                message = #{message ,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+
+
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from timi.response_body
+        where id = #{id}
+    </delete>
+
+</mapper>
+

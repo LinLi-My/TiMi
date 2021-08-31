@@ -82,11 +82,11 @@ public class DateTool {
      * Date                 2021/7/16 8:26
      * Version              1.0.0
      * @param               startLocalDateTime  开始时间
-     * @param               endLocalDateTime    结束时间
      * @param               unit                单位
      * @return java.lang.String
      */
-    public static String TimeCalculation(LocalDateTime startLocalDateTime, LocalDateTime endLocalDateTime, String unit) {
+    public static String TimeCalculation(LocalDateTime startLocalDateTime,String unit) {
+        LocalDateTime endLocalDateTime = LocalDateTime.now();
         LocalDateTime tempDateTime = LocalDateTime.from(startLocalDateTime);
 
         if (unit.equals(UNIT_YEARS)) {

@@ -16,21 +16,11 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
-import com.ml.timi.service.impl.TestWebServiceImpl;
-import com.ml.timi.utils.DateTool;
-import com.ml.timi.utils.ExpertionLin;
-import com.ml.timi.utils.JSONUtil;
-import lombok.SneakyThrows;
 
 import java.lang.reflect.Type;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalField;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,6 +69,8 @@ public class Test {
             this.FENSHUT = FENSHUT;
             this.OA = OA;
         }
+
+
        /* @Override
         public String toString() {
             return "User [FENSHUT=" + FENSHUT + ", OA=" + OA + "]";
@@ -183,6 +175,7 @@ public class Test {
 
         User user1 = gson.fromJson(json, User.class);
         System.out.println("json转为对象：" + user1);
+
 
     }
 }

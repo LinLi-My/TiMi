@@ -1,28 +1,28 @@
 package com.ml.timi.mapper.log;
 
-import com.ml.timi.model.log.response.ResponseTemplate;
+import com.ml.timi.model.log.response.ResponseBody;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * 请求头日志(ResponseTemplate)表数据库访问层
+ * (ResponseBody)表数据库访问层
  *
  * @author Lin
- * @since 2021-08-27 09:37:30
+ * @since 2021-08-30 09:42:34
  */
 @Mapper
-public interface ResponseTemplateMapper {
+public interface ResponseBodyMapper {
 
     /**
      * 通过实体作为筛选条件查询
      * 查询条件为空时，则默认查询全部
      *
-     * @param responseTemplate ResponseTemplate对象
-     * @return ResponseTemplate集合
+     * @param responseBody ResponseBody对象
+     * @return ResponseBody集合
      */
-    List<ResponseTemplate> search(ResponseTemplate responseTemplate);
+    List<ResponseBody> search(ResponseBody responseBody);
 
     /**
      * 通过ID查询单条数据
@@ -30,7 +30,7 @@ public interface ResponseTemplateMapper {
      * @param id 主键
      * @return 实例对象
      */
-    ResponseTemplate searchById(Integer id);
+    ResponseBody searchById(Integer id);
 
     /**
      * 查询指定行数据
@@ -39,39 +39,41 @@ public interface ResponseTemplateMapper {
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<ResponseTemplate> searchAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    List<ResponseBody> searchAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
 
     /**
      * 新增数据
      *
-     * @param responseTemplate ResponseTemplate对象
+     * @param responseBody ResponseBody对象
      * @return 影响行数
      */
-    int insert(ResponseTemplate responseTemplate);
+    int insert(ResponseBody responseBody);
 
     /**
      * 批量新增数据（MyBatis原生foreach方法）
      *
-     * @param  responseTemplateList ResponseTemplate对象集合
+     * @param  responseBodyList ResponseBody对象集合
      * @return 影响行数
      */
-    int insertBatch(List<ResponseTemplate> responseTemplateList);
+    int insertBatch(List<ResponseBody> responseBodyList);
 
     /**
      * 批量新增或按主键更新数据（MyBatis原生foreach方法）
      *
-     * @param  responseTemplateList ResponseTemplate对象集合
+     * @param  responseBodyList ResponseBody对象集合
      * @return 影响行数
      */
-    int insertOrUpdateBatch(List<ResponseTemplate> responseTemplateList);
+    int insertOrUpdateBatch(List<ResponseBody> responseBodyList);
 
     /**
      * 修改数据
      *
-     * @param responseTemplate ResponseTemplate对象
+     * @param responseBody ResponseBody对象
      * @return 影响行数
      */
-    int update(ResponseTemplate responseTemplate);
+    int update(ResponseBody responseBody);
+
+
 
     /**
      * 通过主键删除数据

@@ -1,20 +1,18 @@
-package com.ml.timi.mapper.log;
+package com.ml.timi.service;
 
 import com.ml.timi.model.log.request.RequestTemplate;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * 请求头日志(RequestTemplate)表数据库访问层
+ * 请求头日志(RequestTemplate)表服务接口
  *
  * @author Lin
  * @since 2021-08-27 09:34:24
  */
-@Mapper
-public interface RequestTemplateMapper {
-
+@Service
+public interface RequestTemplateService {
     /**
      * 通过实体作为筛选条件查询
      * 查询条件为空时，则默认查询全部
@@ -33,19 +31,19 @@ public interface RequestTemplateMapper {
     RequestTemplate searchById(Integer id);
 
     /**
-     * 查询指定行数据
+     * 查询多条数据
      *
      * @param offset 查询起始位置
      * @param limit 查询条数
      * @return 对象列表
      */
-    List<RequestTemplate> searchAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    List<RequestTemplate> searchAllByLimit(int offset, int limit);
 
     /**
      * 新增数据
      *
-     * @param requestTemplate RequestTemplate对象
-     * @return 影响行数
+     * @param requestTemplate 实例对象
+     * @return 实例对象
      */
     int insert(RequestTemplate requestTemplate);
 
@@ -69,9 +67,9 @@ public interface RequestTemplateMapper {
      * 修改数据
      *
      * @param requestTemplate RequestTemplate对象
-     * @return 影响行数
+     * @return 实例对象
      */
-    int update(RequestTemplate requestTemplate);
+    RequestTemplate update(RequestTemplate requestTemplate);
 
     /**
      * 通过主键删除数据
@@ -82,4 +80,3 @@ public interface RequestTemplateMapper {
     int deleteById(Integer id);
 
 }
-

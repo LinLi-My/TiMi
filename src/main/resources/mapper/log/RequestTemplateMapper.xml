@@ -13,218 +13,226 @@
         <result property="id" column="id" jdbcType="INTEGER"/>
     </resultMap>
 
-    <sql id="Log_Base_Column_List">
-        batch_id, module, request_status, request_status_message, request_time,request_body_count, request_body
+    <sql id="Base_Column_List">
+        batch_id, module, request_status, request_status_message, request_time, request_body_count, request_body
+    </sql>
+    <sql id="remake_Column_List_a">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="batchId != null and batchId != ''">
+                batch_id,
+            </if>
+            <if test="module != null and module != ''">
+                module,
+            </if>
+            <if test="requestStatus != null and requestStatus != ''">
+                request_status,
+            </if>
+            <if test="requestStatusMessage != null and requestStatusMessage != ''">
+                request_status_message,
+            </if>
+            <if test="requestTime != null">
+                request_time,
+            </if>
+            <if test="requestBodyCount != null">
+                request_body_count,
+            </if>
+            <if test="requestBody != null and requestBody != ''">
+                request_body,
+            </if>
+
+        </trim>
     </sql>
 
-    <!--新增RequestTemplate(request)所有列-->
-    <insert id="insertRequestTemplate" keyProperty="id" useGeneratedKeys="true">
-        insert into request_template_web
-        (<include refid="Log_Base_Column_List"/>)
+    <sql id="remake_Column_List_b">
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="batchId != null and batchId != ''">
+                #{batchId ,jdbcType=VARCHAR},
+            </if>
+            <if test="module != null and module != ''">
+                #{module ,jdbcType=VARCHAR},
+            </if>
+            <if test="requestStatus != null and requestStatus != ''">
+                #{requestStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="requestStatusMessage != null and requestStatusMessage != ''">
+                #{requestStatusMessage ,jdbcType=VARCHAR},
+            </if>
+            <if test="requestTime != null">
+                #{requestTime ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="requestBodyCount != null">
+                #{requestBodyCount ,jdbcType=INTEGER},
+            </if>
+            <if test="requestBody != null and requestBody != ''">
+                #{requestBody ,jdbcType=VARCHAR},
+            </if>
+
+        </trim>
+    </sql>
+
+
+    <!--查询单个-->
+    <select id="searchById" resultMap="RequestTemplateMap">
+        select
+        (<include refid="Base_Column_List"/>)
+
+        from timi.log_message_server
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="searchAllByLimit" resultMap="RequestTemplateMap">
+        select
+        (<include refid="Base_Column_List"/>)
+
+        from timi.log_message_server
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="search" resultMap="RequestTemplateMap">
+        select
+        (<include refid="Base_Column_List"/>)
+
+        from timi.log_message_server
+        <where>
+            <if test="batchId != null and batchId != ''">
+                and batch_id = #{batchId ,jdbcType=VARCHAR}
+            </if>
+            <if test="module != null and module != ''">
+                and module = #{module ,jdbcType=VARCHAR}
+            </if>
+            <if test="requestStatus != null and requestStatus != ''">
+                and request_status = #{requestStatus ,jdbcType=VARCHAR}
+            </if>
+            <if test="requestStatusMessage != null and requestStatusMessage != ''">
+                and request_status_message = #{requestStatusMessage ,jdbcType=VARCHAR}
+            </if>
+            <if test="requestTime != null">
+                and request_time = #{requestTime ,jdbcType=TIMESTAMP}
+            </if>
+            <if test="requestBodyCount != null">
+                and request_body_count = #{requestBodyCount ,jdbcType=INTEGER}
+            </if>
+            <if test="requestBody != null and requestBody != ''">
+                and request_body = #{requestBody ,jdbcType=VARCHAR}
+            </if>
+            <if test="id != null">
+                and id = #{id ,jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into timi.log_message_server
+        <include refid="remake_Column_List_a"/>
+        <include refid="remake_Column_List_b"/>
+    </insert>
+
+
+    <!--批量新增数据-->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into timi.log_message_server
+        (
+        batch_id,
+        module,
+        request_status,
+        request_status_message,
+        request_time,
+        request_body_count,
+        request_body
+
+        )
         values
-        (#{batchId}, #{module}, #{requestStatus}, #{requestStatusMessage}, #{requestTime}, #{requestBodyCount},
-        #{requestBody})
+        <foreach collection="requestTemplateList" item="entity" separator=",">
+            (
+            #{entity.batchId},
+            #{entity.module},
+            #{entity.requestStatus},
+            #{entity.requestStatusMessage},
+            #{entity.requestTime},
+            #{entity.requestBodyCount},
+            #{entity.requestBody}
+
+            )
+        </foreach>
+    </insert>
+
+
+    <!--批量新增或按主键更新数据-->
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into timi.log_message_server
+        (
+
+        batch_id,
+        module,
+        request_status,
+        request_status_message,
+        request_time,
+        request_body_count,
+        request_body
+
+        )
+        values
+        <foreach collection="requestTemplateList" item="entity" separator=",">
+            (
+            #{entity.batchId},
+            #{entity.module},
+            #{entity.requestStatus},
+            #{entity.requestStatusMessage},
+            #{entity.requestTime},
+            #{entity.requestBodyCount},
+            #{entity.requestBody}
+
+            )
+        </foreach>
+        on duplicate key update
+        batch_id = values(batch_id) ,
+        module = values(module) ,
+        request_status = values(request_status) ,
+        request_status_message = values(request_status_message) ,
+        request_time = values(request_time) ,
+        request_body_count = values(request_body_count) ,
+        request_body = values(request_body)
 
     </insert>
 
-    <!-- &lt;!&ndash;查询单个&ndash;&gt;
-     <select id="queryById" resultMap="RequestTemplateMap">
-         select batchId,
-                module,
-                request_status,
-                request_status_message,
-                request_time,
-                request_count,
-                request_body,
-                response_time,
-                response_status,
-                response_status_message,
-                response_count,
-                response_success_count,
-                response_error_count,
-                response_body,
-                id
-         from timi.request_template
-         where id = #{id}
-     </select>
 
-     &lt;!&ndash;查询指定行数据&ndash;&gt;
-     <select id="queryAllByLimit" resultMap="RequestTemplateMap">
-         select batchId,
-                module,
-                request_status,
-                request_status_message,
-                request_time,
-                request_count,
-                request_body,
-                response_time,
-                response_status,
-                response_status_message,
-                response_count,
-                response_success_count,
-                response_error_count,
-                response_body,
-                id
-         from timi.request_template
-         limit #{offset}, #{limit}
-     </select>
+    <!--通过主键修改数据-->
+    <update id="update">
+        update timi.log_message_server
+        <set>
+            <if test="module != null and module != ''">
+                module = #{module ,jdbcType=VARCHAR},
+            </if>
+            <if test="requestStatus != null and requestStatus != ''">
+                request_status = #{requestStatus ,jdbcType=VARCHAR},
+            </if>
+            <if test="requestStatusMessage != null and requestStatusMessage != ''">
+                request_status_message = #{requestStatusMessage ,jdbcType=VARCHAR},
+            </if>
+            <if test="requestTime != null">
+                request_time = #{requestTime ,jdbcType=TIMESTAMP},
+            </if>
+            <if test="requestBodyCount != null">
+                request_body_count = #{requestBodyCount ,jdbcType=INTEGER},
+            </if>
+            <if test="requestBody != null and requestBody != ''">
+                request_body = #{requestBody ,jdbcType=VARCHAR},
+            </if>
 
-     &lt;!&ndash;通过实体作为筛选条件查询&ndash;&gt;
-     <select id="queryAll" resultMap="RequestTemplateMap">
-         select
-         batchId, module, request_status, request_status_message, request_time, request_count, request_body,
-         response_time, response_status, response_status_message, response_count, response_success_count,
-         response_error_count, response_body, id
-         from timi.request_template
-         <where>
-             <if test="batchid != null and batchid != ''">
-                 and batchId = #{batchid}
-             </if>
-             <if test="module != null and module != ''">
-                 and module = #{module}
-             </if>
-             <if test="requestStatus != null and requestStatus != ''">
-                 and request_status = #{requestStatus}
-             </if>
-             <if test="requestStatusMessage != null and requestStatusMessage != ''">
-                 and request_status_message = #{requestStatusMessage}
-             </if>
-             <if test="requestTime != null">
-                 and request_time = #{requestTime}
-             </if>
-             <if test="requestCount != null">
-                 and request_count = #{requestCount}
-             </if>
-             <if test="requestBody != null and requestBody != ''">
-                 and request_body = #{requestBody}
-             </if>
-             <if test="responseTime != null">
-                 and response_time = #{responseTime}
-             </if>
-             <if test="responseStatus != null and responseStatus != ''">
-                 and response_status = #{responseStatus}
-             </if>
-             <if test="responseStatusMessage != null and responseStatusMessage != ''">
-                 and response_status_message = #{responseStatusMessage}
-             </if>
-             <if test="responseCount != null">
-                 and response_count = #{responseCount}
-             </if>
-             <if test="responseSuccessCount != null">
-                 and response_success_count = #{responseSuccessCount}
-             </if>
-             <if test="responseErrorCount != null">
-                 and response_error_count = #{responseErrorCount}
-             </if>
-             <if test="responseBody != null and responseBody != ''">
-                 and response_body = #{responseBody}
-             </if>
-             <if test="id != null">
-                 and id = #{id}
-             </if>
-         </where>
-     </select>
+        </set>
+        where batch_id = #{batchId}
+    </update>
 
-     &lt;!&ndash;新增所有列&ndash;&gt;
-     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-         insert into timi.request_template(batchId, module, request_status, request_status_message, request_time,
-                                           request_count, request_body, response_time, response_status,
-                                           response_status_message, response_count, response_success_count,
-                                           response_error_count, response_body)
-         values (#{batchid}, #{module}, #{requestStatus}, #{requestStatusMessage}, #{requestTime}, #{requestCount},
-                 #{requestBody}, #{responseTime}, #{responseStatus}, #{responseStatusMessage}, #{responseCount},
-                 #{responseSuccessCount}, #{responseErrorCount}, #{responseBody})
-     </insert>
-
-     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-         insert into timi.request_template(batchId, module, request_status, request_status_message, request_time,
-         request_count, request_body, response_time, response_status, response_status_message, response_count,
-         response_success_count, response_error_count, response_body)
-         values
-         <foreach collection="entities" item="entity" separator=",">
-             (#{entity.batchid}, #{entity.module}, #{entity.requestStatus}, #{entity.requestStatusMessage},
-             #{entity.requestTime}, #{entity.requestCount}, #{entity.requestBody}, #{entity.responseTime},
-             #{entity.responseStatus}, #{entity.responseStatusMessage}, #{entity.responseCount},
-             #{entity.responseSuccessCount}, #{entity.responseErrorCount}, #{entity.responseBody})
-         </foreach>
-     </insert>
-
-     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-         insert into timi.request_template(batchId, module, request_status, request_status_message, request_time,
-         request_count, request_body, response_time, response_status, response_status_message, response_count,
-         response_success_count, response_error_count, response_body)
-         values
-         <foreach collection="entities" item="entity" separator=",">
-             (#{entity.batchid}, #{entity.module}, #{entity.requestStatus}, #{entity.requestStatusMessage},
-             #{entity.requestTime}, #{entity.requestCount}, #{entity.requestBody}, #{entity.responseTime},
-             #{entity.responseStatus}, #{entity.responseStatusMessage}, #{entity.responseCount},
-             #{entity.responseSuccessCount}, #{entity.responseErrorCount}, #{entity.responseBody})
-         </foreach>
-         on duplicate key update
-         batchId = values(batchId) , module = values(module) , request_status = values(request_status) ,
-         request_status_message = values(request_status_message) , request_time = values(request_time) , request_count =
-         values(request_count) , request_body = values(request_body) , response_time = values(response_time) ,
-         response_status = values(response_status) , response_status_message = values(response_status_message) ,
-         response_count = values(response_count) , response_success_count = values(response_success_count) ,
-         response_error_count = values(response_error_count) , response_body = values(response_body)
-     </insert>
-
-     &lt;!&ndash;通过主键修改数据&ndash;&gt;
-     <update id="update">
-         update timi.request_template
-         <set>
-             <if test="batchid != null and batchid != ''">
-                 batchId = #{batchid},
-             </if>
-             <if test="module != null and module != ''">
-                 module = #{module},
-             </if>
-             <if test="requestStatus != null and requestStatus != ''">
-                 request_status = #{requestStatus},
-             </if>
-             <if test="requestStatusMessage != null and requestStatusMessage != ''">
-                 request_status_message = #{requestStatusMessage},
-             </if>
-             <if test="requestTime != null">
-                 request_time = #{requestTime},
-             </if>
-             <if test="requestCount != null">
-                 request_count = #{requestCount},
-             </if>
-             <if test="requestBody != null and requestBody != ''">
-                 request_body = #{requestBody},
-             </if>
-             <if test="responseTime != null">
-                 response_time = #{responseTime},
-             </if>
-             <if test="responseStatus != null and responseStatus != ''">
-                 response_status = #{responseStatus},
-             </if>
-             <if test="responseStatusMessage != null and responseStatusMessage != ''">
-                 response_status_message = #{responseStatusMessage},
-             </if>
-             <if test="responseCount != null">
-                 response_count = #{responseCount},
-             </if>
-             <if test="responseSuccessCount != null">
-                 response_success_count = #{responseSuccessCount},
-             </if>
-             <if test="responseErrorCount != null">
-                 response_error_count = #{responseErrorCount},
-             </if>
-             <if test="responseBody != null and responseBody != ''">
-                 response_body = #{responseBody},
-             </if>
-         </set>
-         where id = #{id}
-     </update>
-
-     &lt;!&ndash;通过主键删除&ndash;&gt;
-     <delete id="deleteById">
-         delete
-         from timi.request_template
-         where id = #{id}
-     </delete>-->
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from timi.log_message_server
+        where id = #{id}
+    </delete>
 
 </mapper>
 

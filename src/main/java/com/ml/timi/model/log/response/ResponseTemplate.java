@@ -1,3 +1,12 @@
+/**
+ * ClassName:
+ * Description:
+ * Date:           2021 2021/7/23 10:58
+ * Author:         Lin
+ * Copyright:      Lin
+ */
+
+
 package com.ml.timi.model.log.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -11,52 +20,44 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.List;
 
-/**
- * ClassName:
- * Description:
- * Date:           2021 2021/7/23 13:27
- * Author:         Lin
- * Copyright:      Lin
- */
 @Component
 @Data
 public class ResponseTemplate {
 
-    /** 自增主键 */
+    /** 主键 */
     private int id;
-
     /** 批次标识 */
     private String batchId;
-
     /** 模块 */
     private String module;
-
-    /** 请求数据 */
-    private List<ResponseBody> responseBody;
-
-    /** 请求状态 */
-    private String responseStatus;
-
-    /** 请求状态信息 */
-    private String responseStatusMessage;
-
-    /** 请求时间 */
+    /** 响应时间 */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     @JsonSerialize(using = LocalDateTimeSerializer.class)
-    private LocalDateTime responseTime;
+    LocalDateTime responseTime;
 
-    /** 请求体数量 */
-    private int responseBodyCount;
+    /** 响应状态 */
+    String responseStatus;
 
-    /** 请求体成功数量 */
-    private int responseBodySuccessCount;
+    /** 响应状态信息 */
+    String responseStatusMessage;
 
-    /** 请求体失败数量 */
-    private int responseBodyErrorCount;
+    /** 响应数量 */
+    int responseCount;
 
-    /** 耗时 */
-    private String elapsedTime;
+    /** 响应成功数量 */
+    int responseSuccessCount;
+
+    /** 响应失败数量 */
+    int responseErrorCount;
+
+    /**
+     * 响应体-响应数据
+     * 业务主键 ：naturalKey
+     * 状态：status
+     * 信息：message
+     */
+    List<ResponseBody> responseBody;
 
     public ResponseTemplate() {
     }
@@ -65,33 +66,28 @@ public class ResponseTemplate {
     @Override
     public String toString() {
 
-        return  "\n"+"【 请求数据日志"+
-                "\n"+"批次标识：[" + batchId + "]    " +
+        return "\n" + "【 接口调用失败日志" +
+                "\n" + "批次标识：[" + batchId + "]    " +
                 "模块：[" + module + "]    " +
-                "请求时间：[" + responseTime + "]    " +
-                "请求体数量：[" + responseBodyCount + "]    " +
-                "elapsedTime：[" + elapsedTime + "]    " +
-                "\n" + "请求状态：[" + responseStatus + "]    " +
-                "请求状态信息：[" + responseStatusMessage + "]    " +
-                "\n" + "请求数据：[" + responseBody + "]    "+
+                "响应时间：[" + responseTime + "]    " +
+                "\n" + "响应状态：[" + responseStatus + "]    " +
+                "响应状态信息：[" + responseStatusMessage + "]    " +
                 "\n" + "】"
                 ;
-
     }
 
 
     public static final class ResponseTemplateBuilder {
+        LocalDateTime responseTime;
+        String responseStatus;
+        String responseStatusMessage;
+        int responseCount;
+        int responseSuccessCount;
+        int responseErrorCount;
+        List<ResponseBody> responseBody;
         private int id;
         private String batchId;
         private String module;
-        private List<ResponseBody> responseBody;
-        private String responseStatus;
-        private String responseStatusMessage;
-        private LocalDateTime responseTime;
-        private int responseBodyCount;
-        private int responseBodySuccessCount;
-        private int responseBodyErrorCount;
-        private String elapsedTime;
 
         public ResponseTemplateBuilder() {
         }
@@ -115,8 +111,8 @@ public class ResponseTemplate {
             return this;
         }
 
-        public ResponseTemplateBuilder setResponseBody(List<ResponseBody> responseBody) {
-            this.responseBody = responseBody;
+        public ResponseTemplateBuilder setResponseTime(LocalDateTime responseTime) {
+            this.responseTime = responseTime;
             return this;
         }
 
@@ -130,28 +126,23 @@ public class ResponseTemplate {
             return this;
         }
 
-        public ResponseTemplateBuilder setResponseTime(LocalDateTime responseTime) {
-            this.responseTime = responseTime;
+        public ResponseTemplateBuilder setResponseCount(int responseCount) {
+            this.responseCount = responseCount;
             return this;
         }
 
-        public ResponseTemplateBuilder setResponseBodyCount(int responseBodyCount) {
-            this.responseBodyCount = responseBodyCount;
+        public ResponseTemplateBuilder setResponseSuccessCount(int responseSuccessCount) {
+            this.responseSuccessCount = responseSuccessCount;
             return this;
         }
 
-        public ResponseTemplateBuilder setResponseBodySuccessCount(int responseBodySuccessCount) {
-            this.responseBodySuccessCount = responseBodySuccessCount;
+        public ResponseTemplateBuilder setResponseErrorCount(int responseErrorCount) {
+            this.responseErrorCount = responseErrorCount;
             return this;
         }
 
-        public ResponseTemplateBuilder setResponseBodyErrorCount(int responseBodyErrorCount) {
-            this.responseBodyErrorCount = responseBodyErrorCount;
-            return this;
-        }
-
-        public ResponseTemplateBuilder setElapsedTime(String elapsedTime) {
-            this.elapsedTime = elapsedTime;
+        public ResponseTemplateBuilder setResponseBody(List<ResponseBody> responseBody) {
+            this.responseBody = responseBody;
             return this;
         }
 
@@ -160,20 +151,14 @@ public class ResponseTemplate {
             responseTemplate.setId(id);
             responseTemplate.setBatchId(batchId);
             responseTemplate.setModule(module);
-            responseTemplate.setResponseBody(responseBody);
+            responseTemplate.setResponseTime(responseTime);
             responseTemplate.setResponseStatus(responseStatus);
             responseTemplate.setResponseStatusMessage(responseStatusMessage);
-            responseTemplate.setResponseTime(responseTime);
-            responseTemplate.setResponseBodyCount(responseBodyCount);
-            responseTemplate.setResponseBodySuccessCount(responseBodySuccessCount);
-            responseTemplate.setResponseBodyErrorCount(responseBodyErrorCount);
-            responseTemplate.setElapsedTime(elapsedTime);
+            responseTemplate.setResponseCount(responseCount);
+            responseTemplate.setResponseSuccessCount(responseSuccessCount);
+            responseTemplate.setResponseErrorCount(responseErrorCount);
+            responseTemplate.setResponseBody(responseBody);
             return responseTemplate;
         }
     }
 }
-
-
-
-
-

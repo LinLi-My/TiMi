@@ -69,6 +69,7 @@ public class CommonUtils {
      */
     public static JsonData CheckInterfaceParam(String requestData, String requestMD5) throws Exception {
 
+
         RequestTemplate requestTemplate = new RequestTemplate();
         List<UserTest> requestBodyList = new ArrayList();
         Gson gson = new GsonBuilder()
@@ -80,20 +81,18 @@ public class CommonUtils {
                 .create();
 
 
-        //1.判断请求数据、MD5的两个参数是否为空
+        /** 判断请求数据、MD5的两个参数是否为空 */
         if (StringUtils.isAnyBlank(requestData, requestMD5)) {
             return JsonData.resultData(ResultEnum.Null_RequestData);
         }
-        //判断MD5值是否相同
+        /** 判断MD5值是否相同 */
         if (!CommonUtils.MD5Equals(requestData, requestMD5)) {
             return JsonData.resultData(ResultEnum.MD5_INEQUALITY);
         }
         try {
-            //将请求的Json数据转换为对象RequestTemplate
+            /** 将请求的Json数据转换为对象RequestTemplate */
             requestTemplate = gson.fromJson(requestData, RequestTemplate.class);
-
-
-            //将请求体的Json数据转换为List<UserTest>
+           /** 将请求体的Json数据转换为List<UserTest> */
             requestBodyList = gson.fromJson(requestTemplate.getRequestBody(),
                     new TypeToken<List<UserTest>>() {
                     }.getType());
@@ -103,7 +102,7 @@ public class CommonUtils {
             new CommonUtils().LOGGER.error(ExceptionMessage);
             throw new Exception(ExceptionMessage);
         }
-        //判断请求体是否为空
+        /** 判断请求体是否为空 */
         if (ObjectUtils.isEmpty(requestBodyList)) {
             return JsonData.resultData(ResultEnum.Null_RequestDataBody);
         }

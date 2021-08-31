@@ -21,7 +21,7 @@ public class VideoOrder {
     public String outTradeNo;
     public int state;
     public LocalDateTime createTime;
-    public double total_fee;
+    public double totalFee;
     public int videoId;
     public String videoTitle;
     public String videoImg;

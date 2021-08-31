@@ -141,6 +141,10 @@
         </foreach>
 
     </insert>
+
+
+
+
     <insert id="TestinsertForeach">
         insert into log
         (<include refid="Log_Base_Column_List"/>)

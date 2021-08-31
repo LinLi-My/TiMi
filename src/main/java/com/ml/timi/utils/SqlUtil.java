@@ -15,7 +15,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,14 +33,10 @@ public class SqlUtil {
         int groupCount = list.size() / groupSize;
 
         SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
-        Object t = sqlSession.getMapper(tClass);
-        //System.out.println(t.toString());
+        Object objectMapper =  sqlSession.getMapper(tClass);
         try {
 
-            LocalDateTime aa = LocalDateTime.now();
 
-            //优化批量插入
-            Object aaa = "";
             if (list.size() <= groupSize) {
 
                 method.invoke(sqlSession.getMapper(tClass), list);
@@ -49,19 +44,16 @@ public class SqlUtil {
                 List subList = new ArrayList();
                 for (int i = 0; i < groupCount; i++) {
                     subList = list.subList(0, groupSize);
-                    aaa = method.invoke(sqlSession.getMapper(tClass), subList);
+                     method.invoke(objectMapper, subList);
                     list.subList(0, groupSize).clear();
                 }
                 if (list.size() > 0) {
-                    method.invoke(sqlSession.getMapper(tClass), list);
+                    method.invoke(objectMapper, list);
                 }
             }
-            System.out.println("--------" + aaa);
             // int qwe = 1/0;
             sqlSession.commit();
 
-            LocalDateTime bb = LocalDateTime.now();
-            System.out.println(DateTool.TimeCalculation(aa, bb, "NANOS"));
 
 
         } catch (Exception e) {
@@ -72,4 +64,31 @@ public class SqlUtil {
         }
         return 1;
     }
+
+
+    public <T> Object insert(List<T> list, Class tClass, Class parameterTypes, String methodName, SqlSessionFactory sqlSessionFactory) throws NoSuchMethodException {
+        Method method = tClass.getMethod(methodName, parameterTypes);
+        SqlSession sqlSession = sqlSessionFactory.openSession(false);
+        Object objectMapper =  sqlSession.getMapper(tClass);
+        for (Object object :  list) {
+            try {
+                method.invoke(objectMapper, object);
+                // int qwe = 1/0;
+                sqlSession.commit();
+            } catch (Exception e) {
+                sqlSession.rollback();
+                e.printStackTrace();
+            } finally {
+                sqlSession.close();
+            }
+        }
+
+
+        return 1;
+    }
+
+
 }
+
+
+
