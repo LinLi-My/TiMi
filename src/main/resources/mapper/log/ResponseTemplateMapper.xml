@@ -247,6 +247,15 @@
         where batch_id = #{batchId ,jdbcType=VARCHAR}
     </update>
 
+    <!--通过主键修改数据-->
+    <update id="updateResponseBody" parameterType="java.util.Map">
+        update  timi.log_message_server
+        set
+            request_body = #{requestBody }
+
+        where batch_id = #{batchId ,jdbcType=VARCHAR}
+    </update>
+
     <!--通过主键删除-->
     <delete id="deleteById">
         delete

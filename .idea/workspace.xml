@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b6875b29-e1be-48ac-b9e7-42a6d6817744" name="更改" comment="20210831">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ml/timi/mapper/log/ResponseTemplateMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ml/timi/mapper/log/ResponseTemplateMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/ResponseTemplateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/ResponseTemplateService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/TestWebService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/TestWebService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/impl/ResponseTemplateServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/impl/ResponseTemplateServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/impl/TestWebServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/impl/TestWebServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/log/ResponseTemplateMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/log/ResponseTemplateMapper.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../../DevelopmentEnvironment/Maven/apache-maven-3.6.3" />
+        <option name="userSettingsFile" value="F:\DevelopmentEnvironment\Maven\MavenRepository\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1wpnBLVSaFbio9EZA9Ek4cHgwfX" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showModules" value="false" />
+    <option name="sortByType" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.obroom.plugin.mybatislog.indexNum" value="369" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="项目" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="shared-indexes" />
+    <property name="two.files.diff.last.used.folder" value="$USER_HOME$/Documents" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\Lin\Experiment\SpringBootPM\TiMi\src\main\resources\mapper" />
+      <recent name="F:\Lin\Experiment\SpringBootPM\TiMi\src\main\java\com\ml\timi\service" />
+      <recent name="F:\Lin\Experiment\SpringBootPM\TiMi\src\main\java\com\ml\timi\service\impl" />
+      <recent name="F:\Lin\Experiment\SpringBootPM\TiMi\src\main\java\com\ml\timi\model" />
+      <recent name="F:\Lin\Experiment\SpringBootPM\TiMi\src\main\java\com\ml\timi\mapper" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Lin\Experiment\SpringBootPM\TiMi\src\main\resources\mapper\log" />
+    </key>
+    <key name="CreateBuilderDialog.RecentsKey">
+      <recent name="com.ml.timi.model.log.response" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.ml.timi.mapper.log" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Spring Boot.TiMiApplication">
+    <configuration name="Test$Student" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.ml.timi.Test$Student" />
+      <module name="TiMi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ml.timi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.ml.timi.Test" />
+      <module name="TiMi" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.ml.timi.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TiMiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <module name="TiMi" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.ml.timi.TiMiApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="应用程序.Test" />
+        <item itemvalue="应用程序.Test$Student" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="b6875b29-e1be-48ac-b9e7-42a6d6817744" name="更改" comment="" />
+      <created>1629164261606</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1629164261606</updated>
+      <workItem from="1629164262930" duration="15511000" />
+      <workItem from="1629188346423" duration="5788000" />
+      <workItem from="1629264033599" duration="12098000" />
+      <workItem from="1629352376960" duration="24105000" />
+      <workItem from="1629684702082" duration="200000" />
+      <workItem from="1629684929657" duration="10654000" />
+      <workItem from="1629711501782" duration="975000" />
+      <workItem from="1629766046740" duration="3488000" />
+      <workItem from="1629782898162" duration="9514000" />
+      <workItem from="1629861137648" duration="3712000" />
+      <workItem from="1629870709291" duration="47000" />
+      <workItem from="1629870781946" duration="3347000" />
+      <workItem from="1629938791607" duration="1466000" />
+      <workItem from="1629956443802" duration="766000" />
+      <workItem from="1630288469344" duration="606000" />
+      <workItem from="1630293469808" duration="5450000" />
+      <workItem from="1630312691499" duration="8541000" />
+      <workItem from="1630378624889" duration="510000" />
+      <workItem from="1630379299925" duration="1293000" />
+      <workItem from="1630389336489" duration="15083000" />
+      <workItem from="1630462788679" duration="6549000" />
+    </task>
+    <task id="LOCAL-00001" summary="1">
+      <created>1629164620728</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1629164620728</updated>
+    </task>
+    <task id="LOCAL-00002" summary="1">
+      <created>1629164806823</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1629164806823</updated>
+    </task>
+    <task id="LOCAL-00003" summary="1">
+      <created>1629193075030</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1629193075030</updated>
+    </task>
+    <task id="LOCAL-00004" summary="20210818">
+      <created>1629276017183</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1629276017183</updated>
+    </task>
+    <task id="LOCAL-00005" summary="20210818">
+      <created>1629365866994</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1629365866994</updated>
+    </task>
+    <task id="LOCAL-00006" summary="20210831">
+      <created>1630402656614</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1630402656614</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1" />
+    <MESSAGE value="20210818" />
+    <MESSAGE value="20210831" />
+    <option name="LAST_COMMIT_MESSAGE" value="20210831" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ml.timi.mapper.VideoOrderMapper">
+
+    <resultMap type="com.ml.timi.model.entity.VideoOrder" id="VideoOrderMap">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="outTradeNo" column="out_trade_no" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="totalFee" column="total_fee" jdbcType="INTEGER"/>
+        <result property="videoId" column="video_id" jdbcType="INTEGER"/>
+        <result property="videoTitle" column="video_title" jdbcType="VARCHAR"/>
+        <result property="videoImg" column="video_img" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, out_trade_no, state, create_time, total_fee, video_id, video_title, video_img, user_id
+    </sql>
+
+    <sql id="remake_Column_List_a">
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="outTradeNo != null and outTradeNo != ''">
+                out_trade_no,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="totalFee != null">
+                total_fee,
+            </if>
+            <if test="videoId != null">
+                video_id,
+            </if>
+            <if test="videoTitle != null and videoTitle != ''">
+                video_title,
+            </if>
+            <if test="videoImg != null and videoImg != ''">
+                video_img,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+        </trim>
+    </sql>
+
+    <sql id="remake_Column_List_b">
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="outTradeNo != null and outTradeNo != ''">
+                #{outTradeNo ,jdbcType="VARCHAR"},
+            </if>
+            <if test="state != null">
+                #{state ,jdbcType="INTEGER"},
+            </if>
+            <if test="createTime != null">
+                #{createTime ,jdbcType="TIMESTAMP"},
+            </if>
+            <if test="totalFee != null">
+                #{totalFee ,jdbcType="INTEGER"},
+            </if>
+            <if test="videoId != null">
+                #{videoId ,jdbcType="INTEGER"},
+            </if>
+            <if test="videoTitle != null and videoTitle != ''">
+                #{videoTitle ,jdbcType="VARCHAR"},
+            </if>
+            <if test="videoImg != null and videoImg != ''">
+                #{videoImg ,jdbcType="VARCHAR"},
+            </if>
+            <if test="userId != null">
+                #{userId ,jdbcType="INTEGER"},
+            </if>
+        </trim>
+    </sql>
+
+
+    <!--查询单个-->
+    <select id="searchById" resultMap="VideoOrderMap">
+        select
+        (<include refid="Base_Column_List"/>)
+
+        from timi.video_order
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="searchAllByLimit" resultMap="VideoOrderMap">
+        select
+        (<include refid="Base_Column_List"/>)
+
+        from timi.video_order
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="search" resultMap="VideoOrderMap">
+        select
+        (<include refid="Base_Column_List"/>)
+
+        from timi.video_order
+        <where>
+            <if test="id != null">
+                and id = #{id ,jdbcType="VARCHAR"}
+            </if>
+            <if test="outTradeNo != null and outTradeNo != ''">
+                and out_trade_no = #{outTradeNo ,jdbcType="VARCHAR"}
+            </if>
+            <if test="state != null">
+                and state = #{state ,jdbcType="INTEGER"}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime ,jdbcType="TIMESTAMP"}
+            </if>
+            <if test="totalFee != null">
+                and total_fee = #{totalFee ,jdbcType="INTEGER"}
+            </if>
+            <if test="videoId != null">
+                and video_id = #{videoId ,jdbcType="INTEGER"}
+            </if>
+            <if test="videoTitle != null and videoTitle != ''">
+                and video_title = #{videoTitle ,jdbcType="VARCHAR"}
+            </if>
+            <if test="videoImg != null and videoImg != ''">
+                and video_img = #{videoImg ,jdbcType="VARCHAR"}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId ,jdbcType="INTEGER"}
+            </if>
+        </where>
+    </select>
+
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into timi.video_order
+        (<include refid="remake_Column_List_a"/>)
+        (<include refid="remake_Column_List_b"/>)
+    </insert>
+
+
+    <!--批量新增数据-->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into timi.video_order
+        (<include refid="remake_Column_List_a"/>)
+
+        <foreach collection="entities" item="entity" separator=",">
+            (<include refid="remake_Column_List_b"/>)
+        </foreach>
+    </insert>
+
+
+    <!--批量新增或按主键更新数据-->
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into timi.video_order(out_trade_no, state, create_time, total_fee, video_id, video_title, video_img,
+        user_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.outTradeNo}, #{entity.state}, #{entity.createTime}, #{entity.totalFee}, #{entity.videoId},
+            #{entity.videoTitle}, #{entity.videoImg}, #{entity.userId})
+        </foreach>
+        on duplicate key update
+        out_trade_no = values(out_trade_no) , state = values(state) , create_time = values(create_time) , total_fee =
+        values(total_fee) , video_id = values(video_id) , video_title = values(video_title) , video_img =
+        values(video_img) , user_id = values(user_id)
+    </insert>
+
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update timi.video_order
+        <set>
+            <if test="outTradeNo != null and outTradeNo != ''">
+                out_trade_no = #{outTradeNo ,jdbcType="VARCHAR"},
+            </if>
+            <if test="state != null">
+                state = #{state ,jdbcType="INTEGER"},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime ,jdbcType="TIMESTAMP"},
+            </if>
+            <if test="totalFee != null">
+                total_fee = #{totalFee ,jdbcType="INTEGER"},
+            </if>
+            <if test="videoId != null">
+                video_id = #{videoId ,jdbcType="INTEGER"},
+            </if>
+            <if test="videoTitle != null and videoTitle != ''">
+                video_title = #{videoTitle ,jdbcType="VARCHAR"},
+            </if>
+            <if test="videoImg != null and videoImg != ''">
+                video_img = #{videoImg ,jdbcType="VARCHAR"},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId ,jdbcType="INTEGER"},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from timi.video_order
+        where id = #{id}
+    </delete>
+
+</mapper>
+
