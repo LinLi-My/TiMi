@@ -4,14 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b6875b29-e1be-48ac-b9e7-42a6d6817744" name="更改" comment="20210831">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ml/timi/mapper/log/ResponseTemplateMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ml/timi/mapper/log/ResponseTemplateMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/ResponseTemplateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/ResponseTemplateService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/TestWebService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/TestWebService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/impl/ResponseTemplateServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/impl/ResponseTemplateServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/impl/TestWebServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ml/timi/service/impl/TestWebServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/log/ResponseTemplateMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/log/ResponseTemplateMapper.xml" afterDir="false" />
-    </list>
+    <list default="true" id="b6875b29-e1be-48ac-b9e7-42a6d6817744" name="更改" comment="20210831" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -70,11 +63,11 @@
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="项目" />
+    <property name="project.structure.last.edited" value="库" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2048495" />
     <property name="restartRequiresConfirmation" value="false" />
-    <property name="settings.editor.selected.configurable" value="shared-indexes" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
     <property name="two.files.diff.last.used.folder" value="$USER_HOME$/Documents" />
   </component>
   <component name="RecentsManager">
@@ -165,6 +158,7 @@
       <workItem from="1630379299925" duration="1293000" />
       <workItem from="1630389336489" duration="15083000" />
       <workItem from="1630462788679" duration="6549000" />
+      <workItem from="1630500305072" duration="369000" />
     </task>
     <task id="LOCAL-00001" summary="1">
       <created>1629164620728</created>
