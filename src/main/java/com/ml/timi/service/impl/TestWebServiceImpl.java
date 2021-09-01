@@ -1,18 +1,11 @@
-/**
- * ClassName:
- * Description:
- * Date:           2021 2021/7/19 15:51
- * Author:         Lin
- * Copyright:      Lin
- */
-
-
 package com.ml.timi.service.impl;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
+import com.ml.timi.config.template.LogType;
+import com.ml.timi.config.template.Message;
 import com.ml.timi.config.template.Module;
 import com.ml.timi.config.template.Status;
 import com.ml.timi.mapper.UserTestClientMapper;
@@ -27,6 +20,7 @@ import com.ml.timi.service.RequestTemplateService;
 import com.ml.timi.service.ResponseTemplateService;
 import com.ml.timi.service.TestWebService;
 import com.ml.timi.utils.CommonUtils;
+import com.ml.timi.utils.ExpertionLin;
 import com.ml.timi.utils.JsonData;
 import com.ml.timi.utils.LocalDateTimeAdapter;
 import org.apache.commons.lang3.ObjectUtils;
@@ -41,8 +35,6 @@ import javax.jws.WebService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @WebService(serviceName = "WebServiceTest",
@@ -118,7 +110,7 @@ public class TestWebServiceImpl implements TestWebService {
         requestTemplate = (RequestTemplate) jsonData.getData();
         batchId = requestTemplate.getBatchId();
         /** 将请求数据插入日志 */
-        LOGGER.info(requestTemplate.toString());
+        LOGGER.info(LogType.Insert_Request_Log_Template+requestTemplate.toString());
         /** 将 requestTemplate 数据存储到数据库 */
         requestTemplateService.insert(requestTemplate);
         /** 将请求体的Json数据转换为 List<UserTestClient> */
@@ -141,15 +133,16 @@ public class TestWebServiceImpl implements TestWebService {
                 videoOrderTestClientList = requestBody.getVideoOrderList();
                 if (ObjectUtils.isNotEmpty(videoOrderTestClientList)) {
 
+                   int i=1/0;
                     /** 将videoOrder数据存储到数据库 */
                     videoOrderTestClientMapper.insertBatch(videoOrderTestClientList);
 
                 }
-                LOGGER.info(requestBody.toString());
+                LOGGER.info(LogType.Insert_Request_Log_Body+requestBody.toString());
                 /** 组装返回报文 */
-                naturalkeyBody = responseBody.getNaturalkey();
-                messageBody = "";
-                statusBody = Status.SUCCESS;
+                naturalkeyBody = requestBody.getNaturalkey();
+                messageBody = Message.BODY_SUCCESS;
+                statusBody = Status.BODY_SUCCESS;
                 responseBody = new ResponseBody.ResponseBodyBuilder()
                         .setNaturalkey(naturalkeyBody)
                         .setMessage(messageBody)
@@ -157,7 +150,7 @@ public class TestWebServiceImpl implements TestWebService {
                         .build();
                 responseBodyList.add(responseBody);
                 /** 记录响应 Success 日志 */
-                LOGGER.info(responseBody.toString());
+                LOGGER.info(LogType.Insert_Response_Log_Body+responseBody.toString());
 
                 responseSuccessCount++;
                 //根据NATURALKEY修改成功下传状态
@@ -166,18 +159,19 @@ public class TestWebServiceImpl implements TestWebService {
                 /**
                  * 响应 Error 处理响应数据
                  */
-                naturalkeyBody = responseBody.getNaturalkey();
-                messageBody = "";
-                statusBody = Status.ERROR;
+                naturalkeyBody = requestBody.getNaturalkey();
+                messageBody = Message.BODY_ERROR;
+                statusBody = Status.BODY_ERROR;
+                String exceptionMessage = ExpertionLin.Infor(e);
                 responseBody = new ResponseBody.ResponseBodyBuilder()
                         .setNaturalkey(naturalkeyBody)
-                        .setMessage(message)
-                        .setStatus(status)
+                        .setMessage(messageBody+exceptionMessage)
+                        .setStatus(statusBody)
                         .build();
 
                 responseBodyList.add(responseBody);
                 /** 记录响应 Error 日志 */
-                LOGGER.error(responseBody.toString());
+                LOGGER.error(LogType.Insert_Response_Log_Body+responseBody.toString());
 
                 responseErrorCount++;
             } finally {
@@ -189,13 +183,29 @@ public class TestWebServiceImpl implements TestWebService {
         sqlSession.close();
         responseCount = responseErrorCount + responseSuccessCount;
         /** 过滤集合里主键为空的集合 */
-        responseBodyList = responseBodyList.stream().filter(s -> Objects.nonNull(s.getStatus())).collect(Collectors.toList());
+
+        //部分失败
+        if (responseErrorCount > 0 && responseSuccessCount >0) {
+            status = Status.PART_ERROR;
+            message = Message.PART_ERROR;
+        }
+        //全部失败
+        if(responseErrorCount > 0 && responseSuccessCount <0){
+            status = Status.ERROR;
+            message = Message.ERROR;
+        }
+        //全部成功
+        if(responseErrorCount == 0 ){
+            status = Status.SUCCESS;
+            message = Message.SUCCESS;
+        }
+
         /** 组装响应数据 */
         responseTemplate = new ResponseTemplate.ResponseTemplateBuilder()
                 .setBatchId(batchId)
                 .setModule(Module.INPUT)
                 .setResponseTime(LocalDateTime.now())
-                .setResponseStatus(Status.ERROR)
+                .setResponseStatus(status)
                 .setResponseStatusMessage(message)
                 .setResponseCount(responseCount)
                 .setResponseSuccessCount(responseSuccessCount)
@@ -204,8 +214,8 @@ public class TestWebServiceImpl implements TestWebService {
                 .build();
 
         String responseTemplateJSON = gson.toJson(responseTemplate);
-        LOGGER.info(responseTemplateJSON);
 
+        LOGGER.info(LogType.Insert_Response_Log_Template+responseTemplateJSON);
         /** 根据 batchId 更新响应 Error 的数据 */
         responseTemplateService.update(responseTemplate);
 

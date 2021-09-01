@@ -6,7 +6,7 @@
     <property name="log.level" value="debug"/>
     <property name="log.maxHistory" value="2"/><!-- 30表示30个 -->
     <!-- 日志的存放位置 -->                    <!--catalina.base表示tomcat的根路径  -->
-    <property name="log.filePath" value="D:/TiMiLog"/>
+    <property name="log.filePath" value="F:/TiMiLogServer"/>
     <!-- 日志的展现格式 -->
     <property name="log.pattern" value="%d{yyyy-MM-dd : HH:mm:ss.SSS}[%thread]%-5level%logger{50}-%msg%n"/>
 
