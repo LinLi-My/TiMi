@@ -133,7 +133,7 @@ public class TestWebServiceImpl implements TestWebService {
                 videoOrderTestClientList = requestBody.getVideoOrderList();
                 if (ObjectUtils.isNotEmpty(videoOrderTestClientList)) {
 
-                   int i=1/0;
+
                     /** 将videoOrder数据存储到数据库 */
                     videoOrderTestClientMapper.insertBatch(videoOrderTestClientList);
 
