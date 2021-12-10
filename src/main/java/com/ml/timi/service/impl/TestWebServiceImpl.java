@@ -42,13 +42,8 @@ import java.util.List;
         endpointInterface = "com.ml.timi.service.TestWebService")
 public class TestWebServiceImpl implements TestWebService {
 
+
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-    /** 响应数量 */
-    int responseCount = 0;
-    /** 响应成功数量 */
-    int responseSuccessCount = 0;
-    /** 响应失败数量 */
-    int responseErrorCount = 0;
     @Resource
     private User user;
     @Resource
@@ -79,6 +74,13 @@ public class TestWebServiceImpl implements TestWebService {
     private String messageBody;
     /** 响应业务主键 */
     private String naturalkeyBody;
+    /** 响应数量 */
+    private int responseCount = 0;
+    /** 响应成功数量 */
+    private int responseSuccessCount = 0;
+    /** 响应失败数量 */
+    private int responseErrorCount = 0;
+    /** Json转换格式 */
     private Gson gson = new GsonBuilder()
             .setPrettyPrinting()                                                    //格式化输出的json
             .serializeNulls()                                                       //有NULL值是也进行解析
@@ -105,12 +107,13 @@ public class TestWebServiceImpl implements TestWebService {
                     "数据：" + Data;
             throw new Exception(responseError);
         }
+
         /** 状态码：3000，则校验数据通过 */
         /** 将请求的 Json 数据转换为对象 RequestTemplate */
         requestTemplate = (RequestTemplate) jsonData.getData();
         batchId = requestTemplate.getBatchId();
         /** 将请求数据插入日志 */
-        LOGGER.info(LogType.Insert_Request_Log_Template+requestTemplate.toString());
+        LOGGER.info(LogType.Insert_Request_Log_Template + requestTemplate.toString());
         /** 将 requestTemplate 数据存储到数据库 */
         requestTemplateService.insert(requestTemplate);
         /** 将请求体的Json数据转换为 List<UserTestClient> */
@@ -138,7 +141,7 @@ public class TestWebServiceImpl implements TestWebService {
                     videoOrderTestClientMapper.insertBatch(videoOrderTestClientList);
 
                 }
-                LOGGER.info(LogType.Insert_Request_Log_Body+requestBody.toString());
+                LOGGER.info(LogType.Insert_Request_Log_Body + requestBody.toString());
                 /** 组装返回报文 */
                 naturalkeyBody = requestBody.getNaturalkey();
                 messageBody = Message.BODY_SUCCESS;
@@ -150,7 +153,7 @@ public class TestWebServiceImpl implements TestWebService {
                         .build();
                 responseBodyList.add(responseBody);
                 /** 记录响应 Success 日志 */
-                LOGGER.info(LogType.Insert_Response_Log_Body+responseBody.toString());
+                LOGGER.info(LogType.Insert_Response_Log_Body + responseBody.toString());
 
                 responseSuccessCount++;
                 //根据NATURALKEY修改成功下传状态
@@ -165,13 +168,13 @@ public class TestWebServiceImpl implements TestWebService {
                 String exceptionMessage = ExpertionLin.Infor(e);
                 responseBody = new ResponseBody.ResponseBodyBuilder()
                         .setNaturalkey(naturalkeyBody)
-                        .setMessage(messageBody+exceptionMessage)
+                        .setMessage(messageBody + exceptionMessage)
                         .setStatus(statusBody)
                         .build();
 
                 responseBodyList.add(responseBody);
                 /** 记录响应 Error 日志 */
-                LOGGER.error(LogType.Insert_Response_Log_Body+responseBody.toString());
+                LOGGER.error(LogType.Insert_Response_Log_Body + responseBody.toString());
 
                 responseErrorCount++;
             } finally {
@@ -185,17 +188,17 @@ public class TestWebServiceImpl implements TestWebService {
         /** 过滤集合里主键为空的集合 */
 
         //部分失败
-        if (responseErrorCount > 0 && responseSuccessCount >0) {
+        if (responseErrorCount > 0 && responseSuccessCount > 0) {
             status = Status.PART_ERROR;
             message = Message.PART_ERROR;
         }
         //全部失败
-        if(responseErrorCount > 0 && responseSuccessCount <0){
+        if (responseErrorCount > 0 && responseSuccessCount < 0) {
             status = Status.ERROR;
             message = Message.ERROR;
         }
         //全部成功
-        if(responseErrorCount == 0 ){
+        if (responseErrorCount == 0) {
             status = Status.SUCCESS;
             message = Message.SUCCESS;
         }
@@ -215,7 +218,7 @@ public class TestWebServiceImpl implements TestWebService {
 
         String responseTemplateJSON = gson.toJson(responseTemplate);
 
-        LOGGER.info(LogType.Insert_Response_Log_Template+responseTemplateJSON);
+        LOGGER.info(LogType.Insert_Response_Log_Template + responseTemplateJSON);
         /** 根据 batchId 更新响应 Error 的数据 */
         responseTemplateService.update(responseTemplate);
 

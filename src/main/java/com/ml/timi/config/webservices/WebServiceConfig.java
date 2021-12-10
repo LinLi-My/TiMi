@@ -1,11 +1,14 @@
 package com.ml.timi.config.webservices;
 
 
+import com.ml.timi.interceptor.WebserviceAuthInterceptor;
+import com.ml.timi.service.impl.AuthServiceImpl;
 import com.ml.timi.service.impl.TestWebServiceImpl;
 import org.apache.cxf.Bus;
 import org.apache.cxf.bus.spring.SpringBus;
 import org.apache.cxf.jaxws.EndpointImpl;
 import org.apache.cxf.transport.servlet.CXFServlet;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,6 +26,8 @@ import javax.xml.ws.Endpoint;
 @Configuration
 public class WebServiceConfig {
 
+    @Autowired
+    private WebserviceAuthInterceptor webserviceAuthInterceptor;
 
     @Bean
     public ServletRegistrationBean dispatcherServlets() {
@@ -41,6 +46,21 @@ public class WebServiceConfig {
     public Endpoint TestServiceEndpoint() {
         EndpointImpl endpoint = new EndpointImpl(this.springBus(),new TestWebServiceImpl());
         endpoint.publish("/TestWebService");
+        /** 访问拦截 */
+        endpoint.getInInterceptors().add(this.webserviceAuthInterceptor);
         return endpoint;
     }
+
+
+    @Bean
+    public Endpoint AuthServiceEndpoint() {
+        EndpointImpl endpoint = new EndpointImpl(this.springBus(),new AuthServiceImpl());
+        endpoint.publish("/AuthService");
+        /** 访问拦截 */
+        endpoint.getInInterceptors().add(this.webserviceAuthInterceptor);
+        return endpoint;
+    }
+
+
+
 }
