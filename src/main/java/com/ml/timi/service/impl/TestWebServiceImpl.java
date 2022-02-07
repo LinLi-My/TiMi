@@ -62,7 +62,7 @@ public class TestWebServiceImpl implements TestWebService {
     private ResponseTemplate responseTemplate;
     @Resource
     private SqlSessionFactory sqlSessionFactory;
-    /** 批次标识 */
+    /** 批次标识1 */
     private String batchId;
     /** 响应状态 */
     private String status;
