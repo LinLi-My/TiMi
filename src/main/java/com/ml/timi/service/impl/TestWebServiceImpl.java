@@ -92,7 +92,7 @@ public class TestWebServiceImpl implements TestWebService {
     @Override
     public String registerList(String requestData, String requestMD5) throws Exception {
 
-        List<UserTestClient> requestBodyList = new ArrayList<>();
+        List<UserTestClient> requestBodyList;
         List<ResponseBody> responseBodyList = new ArrayList();
         List<VideoOrderTestClient> videoOrderTestClientList = new ArrayList<>();
         /** 校验请求数据 */
